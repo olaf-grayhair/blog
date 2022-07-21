@@ -12,7 +12,8 @@ router.post('/registration', RegisterValidation, mistakes, UserController.regist
 
 router.post('/login', UserController.login)
 router.post('/auth',authMiddleware, UserController.authentication)
-router.get('/all', roleMiddleware(['ADMIN']), UserController.getUsers)
+router.get('/all', UserController.getUsers)
+// router.get('/all', roleMiddleware(['ADMIN']), UserController.getUsers)
 
 router.post('/upload', authMiddleware, upload.single('image'), UserController.avatar);
 

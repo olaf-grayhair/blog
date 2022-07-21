@@ -9,16 +9,17 @@ interface InputProps {
 
 const Input: React.FC<InputProps> = ({value}) => {
 
-    const [value, setValue] = useState('')
+    const [text, setText] = useState<string>('')
 
-    const addValue = (e: : React.ChangeEvent<HTMLInputElement>) => {
-        
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setText(e.target.value);
     }
+    console.log(text); 
 
     return (
         <div className={style.input}>
             <label htmlFor="name">{value}</label>
-            <input type="text" value={value}/>
+            <input type="text" value={text} onChange={changeHandler}/>
         </div>
     );
 }

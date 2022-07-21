@@ -12,8 +12,8 @@ const CommentController = require('../controllers/CommentController');
 
 
 router.post('/add', authMiddleware, upload.single('image'),PostController.create);
-router.get('/all_posts', authMiddleware, PostController.getPosts);
-router.get('/post/:id', authMiddleware, PostController.findOne);
+router.get('/all_posts', PostController.getPosts);
+router.get('/post/:id', PostController.findOne);
 
 router.post('/post/:id/comment', authMiddleware, CommentController.create);
 router.post('/post/:id/comment/delete/:id', authMiddleware, CommentController.delete);

@@ -90,7 +90,9 @@ class PostController {
             const postsLength = await Post.countDocuments()
             res.json({posts, postsLength})
         } catch (error) {
-            console.log(error);
+            res.status(500).json({
+                message: 'Не удалось получить статьи',
+              });
         }
     }
 }
