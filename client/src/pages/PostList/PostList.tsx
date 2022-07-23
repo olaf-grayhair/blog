@@ -2,17 +2,16 @@ import React, { FC, useEffect } from 'react';
 import PostItem from '../../components/PostItem/PostItem';
 import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getPosts } from '../../store/actions/PostAction';
+import { fetchPosts } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
 
 
 const PostList: React.FC = () => {
-    const {posts, isLoading, error} = useAppSelector(state => state.posts)
+    const {posts, isLoading, error, users} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
-    // console.log(posts[0]._id);
     
     useEffect(() => {
-        dispatch(getPosts())
+        dispatch(fetchPosts())
         console.log('effect');
         
       },[]);

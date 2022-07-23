@@ -1,14 +1,16 @@
 import React, { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { getOnePost } from '../../store/actions/PostAction';
+import { fetchOnePost } from '../../store/actions/PostAction';
 
 import { Link } from 'react-router-dom';
 import { URL_API } from '../url';
 import style from './postitem.module.scss';
 import noImg from '../../assets/no_img.jpg'
 import { monthFunck } from '../months';
+import { IPost } from '../../types/types';
+import UserItem from '../UserItem/UserItem';
 
-interface PostItemProps {
+interface PostItemProps{
     title: string;
     tags: string;
     text: string;
@@ -18,35 +20,41 @@ interface PostItemProps {
     _id: string;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ title, tags, text, timestamps, imageUrl, _id, comments }) => {
+interface UserItemProps {
+    avatarUrl: string;
+    firstName: string;
+    surName: string;
+}
+
+const PostItem: React.FC<IPost> = ({ 
+    title, 
+    tags, 
+    text, 
+    timestamps, 
+    imageUrl, 
+    _id, 
+    comments,
+
+ }) => {
 
 
     const dispatch = useAppDispatch()
     
-    const changePage = () => {
-        dispatch(getOnePost(_id))
-    }
-    // useEffect(() => {
-    //     dispatch(getOnePost(_id))
-    //   },[]);
 
     return (
         <div className={style.post__item}>
             <Link to='/post' className={style.link__img}>
                 <img src={imageUrl? URL_API + imageUrl : noImg} alt="" />
             </Link>
-            <div className={style.top__block}>
-                <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ea1OGrCb--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/1/f451a206-11c8-4e3d-8936-143d0a7e65bb.png" alt="avatart" className={style.avatar} />
-                <div className={style.user__block}>
-                    <span>name</span>
-                    <time dateTime={timestamps}>{monthFunck(timestamps)}</time>
-                </div>
-            </div>
+
+            <UserItem 
+            timestamps={timestamps} 
+            // _id={_id} 
+            />
             <div className={style.content__block}>
                 <Link 
                     to={'/post/' + _id} 
                     className={style.link}
-                    onClick={changePage}
                 >
                     <h2>{title}</h2>
                 </Link>

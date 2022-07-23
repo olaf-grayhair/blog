@@ -115,6 +115,7 @@ class UserController {
             console.log(error);
         }
     }
+    
 }
 
 module.exports = new UserController()

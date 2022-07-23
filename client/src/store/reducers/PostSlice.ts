@@ -1,32 +1,18 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import { IData, IPost } from "../../types/types";
-// export interface IPost {
-//     _id: string;
-//     title: string;
-//     text: string;
-//     tags: string;
-//     imageUrl: string;
-//     timestamps: string;
-//     user: string;
-//     comments: any[];
-// }
 
-// export interface IData {
-//     posts: any[];
-//     postsLength: number;
-// }
-
-
-
-interface PostState {
-    posts: IPost[];
-    postsLength: number ;
+interface PostState extends IData{
+    // posts: IPost[];
+    // postsLength: number ;
     isLoading: boolean;
     error: string;
+    post: object | IPost[]
 }
 
 const initialState: PostState = {
     posts: [],
+    post: [],
+    users: [],
     postsLength: 0,
     isLoading: false,
     error: '',
@@ -44,13 +30,29 @@ const postSlice = createSlice({
             state.error = ''
             state.posts = action.payload.posts;
             state.postsLength = action.payload.postsLength;
+            state.users = action.payload.users
         },
         getContentError(state, action: PayloadAction<string>) {
             state.isLoading = false
             state.error = action.payload
-        }
+        },
+////////////////////////
+        getOnePostPending(state) {
+            state.isLoading = true
+        },
+        getOnePost(state, action: PayloadAction<IData>) {
+            state.isLoading = false;
+            state.error = ''
+            state.post = action.payload;
+        },
+        getOnePostError(state, action: PayloadAction<string>) {
+            state.isLoading = false
+            state.error = action.payload
+        },
     }
 })
 
 export default postSlice.reducer
-export const {getContent, getContentpending, getContentError} = postSlice.actions
+export const {getContent, getContentpending, getContentError,
+    getOnePostPending, getOnePost, getOnePostError
+} = postSlice.actions

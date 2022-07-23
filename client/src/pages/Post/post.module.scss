@@ -21,29 +21,14 @@
             padding: 10px 10px 40px 10px;
             border-radius: 10px;
             background-color: #282D3C;
-            img{
+            .poster{
                 margin-bottom: 20px;
                 width: 100%;
             }
 
-            .top__block{
-                display: flex;
-                .avatar{
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                }
-                .user__block{
-                    margin-bottom: 30px;
-                    margin-left: 10px;
-                    span{
-                        display: block;
-                    }
-                }
-            }
             .text__block{
                 padding: 0 40px;
-
+                margin-bottom: 40px;
                 .content__block{
 
                     h2{
@@ -51,7 +36,10 @@
                         font-size: 30px;
                     }
                 }
-        
+                .comment__block{
+                padding: 0 40px;
+                }
+
                 .tags__block{
                     margin-bottom: 20px;
                     .tags{

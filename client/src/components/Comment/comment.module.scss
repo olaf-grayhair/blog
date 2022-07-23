@@ -1,0 +1,11 @@
+.comment{
+    width: calc(100% - 80px);
+    margin: 0 auto;
+    padding:20px  40px;
+    border: 1px solid;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    .text{
+        margin-top: 10px;
+    }
+}

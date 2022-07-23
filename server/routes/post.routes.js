@@ -13,12 +13,14 @@ const CommentController = require('../controllers/CommentController');
 
 router.post('/add', authMiddleware, upload.single('image'),PostController.create);
 router.get('/all_posts', PostController.getPosts);
-router.get('/post/:id', PostController.findOne);
+router.get('/:id', PostController.findOne);
+// router.get('/:id', PostController.getPostUser);
 
-router.post('/post/:id/comment', authMiddleware, CommentController.create);
-router.post('/post/:id/comment/delete/:id', authMiddleware, CommentController.delete);
+router.post('/:id/comment', authMiddleware, CommentController.create);
+router.get('/comments/:id', CommentController.getPostComments);
+router.post('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
 
-router.put('/post/:id', authMiddleware, upload.single('image'), PostController.update);
+router.put('/:id', authMiddleware, upload.single('image'), PostController.update);
 router.delete('/delete/:id', roleMiddleware(['ADMIN']), PostController.delete);
 
 module.exports = router

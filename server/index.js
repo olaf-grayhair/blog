@@ -11,7 +11,8 @@ app.use(cors())
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRoute);
-app.use('/post', postRoute);
+app.use('/api/post', postRoute);
+
 app.use('/comment', commentRoute);
 
 const PORT = process.env.PORT || 5000

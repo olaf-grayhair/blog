@@ -1,5 +1,6 @@
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 class CommentController {
     async create(req, res) {
@@ -49,6 +50,37 @@ class CommentController {
             
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async getPostComments(req, res) {
+        try {
+            const post = await Post.findById(req.params.id)
+            // console.log(post.comments);
+            const comments = await Promise.all(
+                post.comments.map((comment) => {
+                    return Comment.findById(comment)
+                }),
+            )
+
+            const users = await Promise.all(
+                comments.map((el) => {
+                    return User.findById(el.user, "firstName surName avatarUrl").exec()
+                }),
+            )
+
+            let arr1 = [...comments]
+            let arr2 = [...users]
+
+            let arr = arr1.map(comm => ({...comm, user: arr2.map(el => el)}))
+            
+            // const result = videos.map(v => ({ ...v, ...storeProducts.find(sp => sp.product_id === v.product_id) }));
+
+            console.log(typeof(comments));
+            res.json({comments, users})
+            // res.json({comments, users})
+        } catch (error) {
+            res.json({ message: 'No comments' })
         }
     }
 }

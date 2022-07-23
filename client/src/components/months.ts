@@ -3,7 +3,10 @@
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-export const monthFunck = (time: string) => {
+export const  monthFunck = (time: string):string => {
+    if(!time) {
+        return ''
+    }
     const fullTime = time.split('T')[0]
     const year = fullTime.split('-')[0]
     const month = fullTime.split('-')[1]
