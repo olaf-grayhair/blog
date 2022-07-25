@@ -7,7 +7,7 @@ import style from './postlist.module.scss';
 
 
 const PostList: React.FC = () => {
-    const {posts, isLoading, error, users} = useAppSelector(state => state.posts)
+    const {posts, isLoading, error} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
     useEffect(() => {

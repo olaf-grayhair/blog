@@ -11,19 +11,19 @@ import Loader from '../../components/Loader/Loader';
 
 
 const PostOne: React.FC<IPost> = ({ title, tags, text, timestamps, imageUrl, _id,}) => {
-    // const { title, tags, text, timestamps, imageUrl, _id, comments } = useAppSelector(state => state.post.post)
-    const { isLoading, error, post, user } = useAppSelector(state => state.post)
-    const {comments, users} = useAppSelector(state => state.comment)
-    // console.log(user, 'POSTONE');
+    const { isLoading, error, post } = useAppSelector(state => state.post)
+
+    const {comments} = useAppSelector(state => state.comment)
+
 
     const commnetsArray = comments.map(el => <Comment key={el._id} {...el} />)
 
-    let arr1:any[] = [...comments]
-    let arr2:any[] = [...users]
+    // let arr1:any[] = [...comments]
+    // let arr2:any[] = [...users]
     
-    let arr = arr1.map(comm => ({...comm, user: arr2.map(el => el)}))
-    // let newArray = array.map(el => el.text = {...el, text: 'war'})
-    console.log(arr);
+    // let arr = arr1.map(comm => ({...comm, user: arr2.map(el => el)}))
+
+    // console.log(arr);
     
 
     return (
@@ -42,9 +42,7 @@ const PostOne: React.FC<IPost> = ({ title, tags, text, timestamps, imageUrl, _id
                         <div className={style.text__block}>
                             <UserItem 
                             timestamps={timestamps} 
-                            // avatarUrl={user.avatarUrl}
-                            // firstName={user.firstName}
-                            // surName={user.surName}
+                            {...post.user}
                             />
 
                             <div className={style.content__block}>

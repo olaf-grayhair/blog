@@ -5,17 +5,17 @@ const User = require('../models/User');
 class CommentController {
     async create(req, res) {
         try {
+            
             const file = {
                 ...req.body,
                 user: req.user.id,
                 post: req.params.id
             }
             const comment = await Comment.create(file)
-
+            
             const postId = await Comment.findOne({text:req.body.text})
 
             await Post.findOneAndUpdate({_id:req.params.id}, { $push: { "comments": postId._id } })
-
             return res.json(comment)
         } catch (error) {
             console.log(error);
@@ -57,28 +57,22 @@ class CommentController {
         try {
             const post = await Post.findById(req.params.id)
             // console.log(post.comments);
-            const comments = await Promise.all(
+            const commentsPost = await Promise.all(
                 post.comments.map((comment) => {
-                    return Comment.findById(comment)
+                    return Comment.findById(comment).lean()
                 }),
             )
 
             const users = await Promise.all(
-                comments.map((el) => {
+                commentsPost.map((el) => {
                     return User.findById(el.user, "firstName surName avatarUrl").exec()
                 }),
             )
 
-            let arr1 = [...comments]
-            let arr2 = [...users]
+            let comments = commentsPost.map(comm => ({...comm, user: users.find(el => comm.user.toString() === el._id.toString())}))
 
-            let arr = arr1.map(comm => ({...comm, user: arr2.map(el => el)}))
-            
-            // const result = videos.map(v => ({ ...v, ...storeProducts.find(sp => sp.product_id === v.product_id) }));
 
-            console.log(typeof(comments));
-            res.json({comments, users})
-            // res.json({comments, users})
+            res.json({comments})
         } catch (error) {
             res.json({ message: 'No comments' })
         }

@@ -1,6 +1,6 @@
 const Router = require('express')
 const router = new Router()
-const {RegisterValidation, mistakes} = require('../validations');
+const {RegisterValidation, mistakes, TextValidation} = require('../validations');
 const UserController = require('../controllers/UserController');
 const authMiddleware = require('../middleware/authMiddleware');
 const roleMiddleware = require('../middleware/roleMiddleware');
@@ -16,7 +16,7 @@ router.get('/all_posts', PostController.getPosts);
 router.get('/:id', PostController.findOne);
 // router.get('/:id', PostController.getPostUser);
 
-router.post('/:id/comment', authMiddleware, CommentController.create);
+router.post('/:id/comment',TextValidation, mistakes, authMiddleware, CommentController.create);
 router.get('/comments/:id', CommentController.getPostComments);
 router.post('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
 

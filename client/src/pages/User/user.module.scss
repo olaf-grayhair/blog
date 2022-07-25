@@ -1,0 +1,58 @@
+.userinfo{
+    .user__block{
+        margin-top: 100px;
+        background-color: #282D3C;
+        position: relative;
+        min-height: 300px;
+        border-radius: 10px;
+        .avatar{
+            width: 170px;
+            height: 170px;
+            position: absolute;
+            top: -30%;
+            right: calc(50% - 85px);
+        }
+    
+        .btn__move{
+            position: absolute;
+            top: 40px;
+            right: 40px;
+        }
+    
+        .name{
+            align-items: center;
+            padding-top: 120px;
+            display: flex;
+            flex-direction: column;
+            .h2{
+                font-size: 30px;
+                font-weight: 800;
+                margin-bottom: 20px;
+                text-transform: capitalize;
+                letter-spacing: .5px;
+            }
+            .item{
+                text-transform: capitalize;
+                letter-spacing: .5px;
+            }
+        }
+    }
+
+
+    .user__content{
+        background-color: #282D3C;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px;
+        border-radius: 15px;
+        min-width: 300px;
+        position: absolute;
+        top: 55%;
+        .item{
+            font-size: 18px;
+            letter-spacing: .4px;
+            margin: 5px 0;
+        }
+    }
+
+}

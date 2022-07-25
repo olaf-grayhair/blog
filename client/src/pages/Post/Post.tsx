@@ -9,7 +9,7 @@ import PostOne from './PostOne';
 const Post: React.FC = () => {
     const { id } = useParams() as { id: string}
 
-    const {isLoading, error, post, user } = useAppSelector(state => state.post)
+    const {isLoading, error, post } = useAppSelector(state => state.post)
     const dispatch = useAppDispatch()
     
 

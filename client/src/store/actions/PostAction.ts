@@ -26,7 +26,7 @@ export const fetchOnePost = (id: string) => {
         try {
             dispatch(postPending())
             const response = await axios.get<IOnePost>(`http://localhost:5000/api/post/${id}`)
-            console.log(response.data.user);
+            console.log(response.data);
             
             dispatch(getPost(response.data))
         } catch (e) {

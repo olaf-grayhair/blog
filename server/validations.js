@@ -9,6 +9,10 @@ const RegisterValidation = [
     body('avatarUrl', 'Неверная ссылка на аватарку').optional().isURL(),
   ];
 
+  const TextValidation = [
+    body('text', 'Текст должен быть длинне 6 символов').isLength({ min: 6 }),
+  ];
+
   const mistakes = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -17,4 +21,4 @@ const RegisterValidation = [
     next()
   }
 
-  module.exports = {RegisterValidation, mistakes};
+  module.exports = {RegisterValidation, TextValidation, mistakes};

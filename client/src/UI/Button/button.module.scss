@@ -8,8 +8,14 @@
     font-size: 18px;
     letter-spacing: 1px;
     transition: all ease .4s;
+    font-weight: 700;
     &:hover{
-        color: #363945;
-        background-color: white;
+        // color: #363945;
+        // background-color: white;
+        transform: scale(1.1);
     }
+}
+
+.red{
+    background-color: red;
 }

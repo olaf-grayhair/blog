@@ -1,9 +1,9 @@
+///all posts
 export interface IData {
     posts: IPost[];
     postsLength: number;
-    users: IUser[];
 }
-
+///post
 export interface IPost {
     _id: string;
     title: string;
@@ -11,31 +11,48 @@ export interface IPost {
     tags: string;
     imageUrl: string;
     timestamps: string;
-    user: string;
-    comments: any[];
+    user: object;
+    comments: IComment[];
 }
-
+///one page
 export interface IOnePost {
     post: IPost;
-    user: IUser;
 }
-
+///all comments
 export interface IComments {
     comments: IComment[];
-    users: IUser[];
 }
-
+///comment
 export interface IComment {
     text: string;
     post: string;
-    user: string;
+    user: IUser;
     _id: string;
     date: string;
 }
-
+///useritem form posts, comments
 export interface IUser {
     avatarUrl: string;
     firstName: string;
     surName: string;
     _id: string;
 }
+///userLogin
+export interface IUserLogin {
+    user: IUserInfo;
+    token: string;
+}
+
+export interface IUserInfo {
+    avatarUrl: string;
+    firstName: string;
+    surName: string;
+    _id: string;
+    posts: any[];
+    email: string;
+    timestamps: string;
+    roles: any[];
+}
+
+
+

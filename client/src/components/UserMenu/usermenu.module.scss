@@ -1,0 +1,30 @@
+.usermenu, .menushow{
+    background-color: #282D3C;
+    position: absolute;
+    z-index: 100;
+    top: 55px;
+    right: 0px;
+    width: 240px;
+    max-height: 320px;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 10px;
+    .list{
+        .item{
+            padding: 15px;
+            font-size: 18px;
+            letter-spacing: .5px;
+            cursor: pointer;
+            font-weight: 800;
+            
+            &:hover{
+                background-color: white;
+                color: #282D3C;
+            }
+        }
+    }
+}
+
+.menushow{
+    display: block;
+}

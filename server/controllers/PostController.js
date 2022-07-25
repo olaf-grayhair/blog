@@ -75,13 +75,15 @@ class PostController {
         try {
             const post = await Post.findOne({ _id: req.params.id })
 
-            const user = await User.findOne({ _id: post.user})
+            const user = await User.findById(post.user, "firstName surName avatarUrl").exec()
             // console.log(user);
             if (!post) {
                 return res.status(404).json({ message: 'article not found' })
             }
 
-            res.json({ post, user })
+            post.user = user
+
+            res.json({ post })
         } catch (error) {
             console.log(error);
         }
@@ -89,17 +91,17 @@ class PostController {
 
     async getPosts(req, res) {
         try {
-            const posts = await Post.find()
+            const postsArray = await Post.find().lean()
             const postsLength = await Post.countDocuments()
 
             const users = await Promise.all(
-                posts.map((el) => {
+                postsArray.map((el) => {
                     return User.findById(el.user, "firstName surName avatarUrl").exec()
                 }),
             )
-            console.log(users);
+            let posts = postsArray.map(post => ({...post, user: users.find(el => post.user.toString() === el._id.toString())}))
 
-            res.json({ posts, postsLength, users })
+            res.json({ posts, postsLength })
         } catch (error) {
             res.status(500).json({
                 message: 'Не удалось получить статьи',

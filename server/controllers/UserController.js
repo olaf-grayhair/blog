@@ -38,7 +38,9 @@ class UserController {
                 surName
             })
 
-            return res.json({user})
+            const token = generateJwt( user._id, user.email, user.roles);
+
+            return res.json({user, token})
 
         } catch (error) {
             console.log(error);

@@ -18,12 +18,7 @@ interface PostItemProps{
     timestamps: string;
     comments: any[];
     _id: string;
-}
-
-interface UserItemProps {
-    avatarUrl: string;
-    firstName: string;
-    surName: string;
+    user: object;
 }
 
 const PostItem: React.FC<IPost> = ({ 
@@ -34,12 +29,9 @@ const PostItem: React.FC<IPost> = ({
     imageUrl, 
     _id, 
     comments,
-
+    user
  }) => {
 
-
-    const dispatch = useAppDispatch()
-    
 
     return (
         <div className={style.post__item}>
@@ -48,7 +40,8 @@ const PostItem: React.FC<IPost> = ({
             </Link>
 
             <UserItem 
-            timestamps={timestamps} 
+            timestamps={timestamps}
+            {...user} 
             // _id={_id} 
             />
             <div className={style.content__block}>

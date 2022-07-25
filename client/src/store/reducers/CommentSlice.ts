@@ -5,12 +5,12 @@ export interface OnePostState {
     isLoading: boolean;
     error: string;
     comments: IComment[];
-    users: IUser[];
+    // users: IUser[];
 }
 
 const initialState: OnePostState = {
     comments: [],
-    users: [],
+    // users: [],
     isLoading: false,
     error: '',
 }
@@ -26,7 +26,6 @@ const commentSlice = createSlice({
             state.isLoading = false;
             state.error = ''
             state.comments = action.payload.comments;
-            state.users = action.payload.users;
         },
         getCommnentsError(state, action: PayloadAction<string>) {
             state.isLoading = false

@@ -12,7 +12,7 @@ interface PostState extends IData{
 const initialState: PostState = {
     posts: [],
     post: [],
-    users: [],
+    // users: [],
     postsLength: 0,
     isLoading: false,
     error: '',
@@ -30,7 +30,7 @@ const postSlice = createSlice({
             state.error = ''
             state.posts = action.payload.posts;
             state.postsLength = action.payload.postsLength;
-            state.users = action.payload.users
+            // state.users = action.payload.users
         },
         getContentError(state, action: PayloadAction<string>) {
             state.isLoading = false
