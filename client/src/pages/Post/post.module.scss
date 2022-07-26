@@ -36,9 +36,7 @@
                         font-size: 30px;
                     }
                 }
-                .comment__block{
-                padding: 0 40px;
-                }
+
 
                 .tags__block{
                     margin-bottom: 20px;
@@ -46,6 +44,13 @@
                         margin-right: 15px;
                         font-size: 18px;
                     }
+                }
+            }
+            .comment__block{
+                padding: 0 40px;
+                .discussion{
+                    margin-bottom: 20px;
+                    font-size: 24px;
                 }
             }
         }

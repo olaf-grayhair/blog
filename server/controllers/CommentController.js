@@ -5,7 +5,7 @@ const User = require('../models/User');
 class CommentController {
     async create(req, res) {
         try {
-            
+            console.log(req.body);
             const file = {
                 ...req.body,
                 user: req.user.id,

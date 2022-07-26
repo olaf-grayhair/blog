@@ -2,7 +2,6 @@ require('dotenv').config()
 const Post = require('../models/Post');
 const User = require('../models/User');
 
-
 class PostController {
     async create(req, res) {
         try {
@@ -109,6 +108,16 @@ class PostController {
         }
     }
 
+    async upload(req, res) {
+        try {
+            const url = `${process.env.SERVER_URL}uploads/${req.file.filename}`
+            res.json(url)
+        } catch (error) {
+            res.status(500).json({
+                message: 'Не удалось загрузить изображение',
+            });
+        }
+    }
     // async getPostUser(req, res) {
     //     try {
     //         const post = await Post.findById(req.params.id)

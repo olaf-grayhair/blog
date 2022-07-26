@@ -1,24 +1,37 @@
-import axios from "axios";
-import { AppDispatch } from "../store";
 import { IComment, IComments, IData, IOnePost, IPost } from "../../types/types";
+import { instance } from "../../components/instance";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import {getContentError} from "../reducers/PostSlice";
-import { OnePostState } from "../reducers/CommentSlice";
-import { getCommnents, getCommnentspending } from "../reducers/CommentSlice";
-
-
-
-export const fetcPostComments = (id: string) => {
-    return async (dispatch: AppDispatch) => {
+export const fetcPostComments = createAsyncThunk(
+    'comments/getPostComments',
+    async (id: string) => {
         try {
-            dispatch(getCommnentspending())
-            const response = await axios.get<IComments>(`http://localhost:5000/api/post/comments/${id}`)
+            const response = await instance.get<IComments>(`api/post/comments/${id}`)
             console.log(response.data);
-            
-            dispatch(getCommnents(response.data))
+            return response.data
         } catch (e) {
             console.log('get post error')
-            dispatch(getContentError('e.message'))
         }
     }
+)
+
+export interface ICreate {
+    id: string;
+    text: string;
 }
+
+export const fetcCommentCreate = createAsyncThunk(
+    'comments/createComment',
+    async (body: ICreate) => {
+        console.log(body.id);
+        console.log(body.text);
+        
+        try {
+            const response = await instance.post<ICreate>(`api/post/${body.id}/comment`, {text: body.text})
+            console.log(response.data);
+            return response.data
+        } catch (e) {
+            console.log('get post error')
+        }
+    }
+)

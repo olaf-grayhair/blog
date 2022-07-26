@@ -12,6 +12,7 @@ const CommentController = require('../controllers/CommentController');
 
 
 router.post('/add', authMiddleware, upload.single('image'),PostController.create);
+router.post('/upload', authMiddleware, upload.single('image'),PostController.upload);
 router.get('/all_posts', PostController.getPosts);
 router.get('/:id', PostController.findOne);
 // router.get('/:id', PostController.getPostUser);

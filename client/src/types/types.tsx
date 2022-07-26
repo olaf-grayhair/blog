@@ -42,7 +42,7 @@ export interface IUserLogin {
     user: IUserInfo;
     token: string;
 }
-
+///userInfo
 export interface IUserInfo {
     avatarUrl: string;
     firstName: string;
@@ -52,6 +52,13 @@ export interface IUserInfo {
     email: string;
     timestamps: string;
     roles: any[];
+}
+///create post
+export interface ICreatePost {
+    title: string;
+    text: string;
+    tags: string;
+    url: string;
 }
 
 

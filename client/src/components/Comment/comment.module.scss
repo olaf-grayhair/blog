@@ -1,11 +1,24 @@
 .comment{
-    width: calc(100% - 80px);
-    margin: 0 auto;
+    width: 100%;
     padding:20px  40px;
     border: 1px solid;
     border-radius: 10px;
     margin-bottom: 20px;
     .text{
         margin-top: 10px;
+    }
+}
+
+
+.createcomment{
+    margin-bottom: 40px;
+    .textarea{
+        width: 100%;
+        resize: none;
+        min-height: 140px;
+        border-radius: 10px;
+        color: black;
+        padding: 10px;
+        margin-bottom: 20px;
     }
 }

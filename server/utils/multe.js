@@ -1,5 +1,7 @@
 const fs = require('fs')
 const multer = require('multer')
+const uuid = require('uuid');
+
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
@@ -9,7 +11,8 @@ const storage = multer.diskStorage({
       cb(null, 'uploads');
     },
     filename: (_, file, cb) => {
-      cb(null, file.originalname);
+      const imgName = uuid.v4() + file.originalname
+      cb(null, imgName);
     },
   });
   

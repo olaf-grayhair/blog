@@ -7,24 +7,17 @@ import UserItem from '../../components/UserItem/UserItem';
 import Comment from '../../components/Comment/Comment';
 import { IPost } from '../../types/types';
 import Loader from '../../components/Loader/Loader';
+import CreateComment from '../../components/Comment/CreateComment';
 
 
 
 const PostOne: React.FC<IPost> = ({ title, tags, text, timestamps, imageUrl, _id,}) => {
     const { isLoading, error, post } = useAppSelector(state => state.post)
+    const {isAuth} = useAppSelector(state => state.users)
 
     const {comments} = useAppSelector(state => state.comment)
 
-
-    const commnetsArray = comments.map(el => <Comment key={el._id} {...el} />)
-
-    // let arr1:any[] = [...comments]
-    // let arr2:any[] = [...users]
-    
-    // let arr = arr1.map(comm => ({...comm, user: arr2.map(el => el)}))
-
-    // console.log(arr);
-    
+    const commnetsArray = comments.map(el => <Comment key={el._id} {...el} />) 
 
     return (
         <>
@@ -54,7 +47,8 @@ const PostOne: React.FC<IPost> = ({ title, tags, text, timestamps, imageUrl, _id
                             </div>
                         </div>
                         <div className={style.comment__block}>
-                            <h3>Discussion {comments.length}</h3>
+                            <h3 className={style.discussion}>Discussion ({comments.length})</h3>
+                            {isAuth && <CreateComment _id={_id}/>}
                             {commnetsArray}
                         </div>
                     </div>
