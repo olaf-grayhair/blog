@@ -1,14 +1,32 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
+import { FaWindowClose } from 'react-icons/fa';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { showPopup } from '../../store/reducers/UserSlice';
 import { IComment } from '../../types/types';
 import UserItem from '../UserItem/UserItem';
 import style from './comment.module.scss';
 
 const Comment: React.FC<IComment> = ({text, post, user, _id, date}) => {
-    // console.log(user, 'COMMENT', _id);
-    
+    const dispatch = useAppDispatch()
+    const userId = useAppSelector(state => state.users.user._id)
+    const userCommentId = user._id
+
+
+    const show = () => {
+        dispatch(showPopup(true))
+    }
+
     return (
         <div className={style.comment}>
             <UserItem timestamps={date} {...user}/>
+            {userCommentId === userId 
+            ? <FaWindowClose 
+                className={style.delete} 
+                onClick={show}
+            /> 
+
+            : ''
+            }
             <p className={style.text}>{text}</p>
         </div>
     );

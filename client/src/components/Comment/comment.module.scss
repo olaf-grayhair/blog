@@ -4,6 +4,17 @@
     border: 1px solid;
     border-radius: 10px;
     margin-bottom: 20px;
+    position: relative;
+    .delete{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        transition: all ease .4s;
+        &:hover{
+            transform: scale(1.2);
+        }
+    }
     .text{
         margin-top: 10px;
     }

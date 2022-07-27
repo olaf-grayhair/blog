@@ -31,7 +31,7 @@ const PostOne: React.FC<IPost> = ({ title, tags, text, timestamps, imageUrl, _id
                     </div>
 
                     <div className={style.centre__block}>
-                        <img className={style.poster} src={URL_API + imageUrl} alt="" />
+                        <img className={style.poster} src={imageUrl} alt="" />
                         <div className={style.text__block}>
                             <UserItem 
                             timestamps={timestamps} 

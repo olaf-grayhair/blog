@@ -68,8 +68,10 @@ export const uploaFile = createAsyncThunk(
 export const createPost = createAsyncThunk(
     'posts/create',
      async (body: any) => {
+        const formData = new FormData()
+        formData.append('image', body)
         try{
-            const response = await instance.post<object>(`api/post/add`, body)
+            const response = await instance.post<any>(`api/post/add`, body)
             return response.data
         }catch(e) {
             console.log('upload error')

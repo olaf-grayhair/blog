@@ -8,7 +8,7 @@ interface PostState extends IData{
     isLoading: boolean;
     error: string;
     post: object | IPost[];
-    url: string;
+    imageUrl: string;
 }
 
 const initialState: PostState = {
@@ -17,7 +17,7 @@ const initialState: PostState = {
     postsLength: 0,
     isLoading: false,
     error: '',
-    url: '',
+    imageUrl: '',
 }
 
 const postSlice = createSlice({
@@ -79,26 +79,26 @@ const postSlice = createSlice({
         [uploaFile.fulfilled.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = ''
-            state.url = action.payload
+            state.imageUrl = action.payload
         },
         [uploaFile.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },
         ///create post
-        // [createPost.pending.type]: (state) => {
-        //     state.isLoading = true
-        // },
-        // [createPost.fulfilled.type]: (state, action: PayloadAction<any>) => {
-        //     state.isLoading = false
-        //     state.error = ''
-        //     state.posts.push(action.payload);
-        //     state.postsLength + 1;
-        // },
-        // [createPost.rejected.type]: (state, action: PayloadAction<string>) => {
-        //     state.isLoading = false
-        //     state.error = action.payload
-        // },
+        [createPost.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [createPost.fulfilled.type]: (state, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.error = ''
+            // state.posts.push(action.payload);
+            // state.postsLength + 1;
+        },
+        [createPost.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.error = action.payload
+        },
     }
 })
 

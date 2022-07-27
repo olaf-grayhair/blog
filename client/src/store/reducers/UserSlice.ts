@@ -6,6 +6,7 @@ interface UserState {
     isLoading: boolean,
     isAuth: boolean,
     menu: boolean,
+    popup: boolean,
     error: string,
     token: string;
 }
@@ -15,6 +16,7 @@ const initialState: UserState = {
     isAuth: false,
     isLoading: false,
     menu: false,
+    popup: false,
     error: '',
     token: '',
 }
@@ -39,6 +41,9 @@ const userSlice = createSlice({
         showMenu(state, action: PayloadAction<boolean>) {
             state.menu = action.payload
         },
+        showPopup(state, action: PayloadAction<boolean>) {
+            state.popup = action.payload
+        },
         userLogout(state) {
             state.isAuth = false;
             localStorage.removeItem('token_blog')
@@ -49,4 +54,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const {userPending, userLogin, userError, showMenu, userLogout} = userSlice.actions
+export const {userPending, userLogin, userError, showMenu,showPopup, userLogout} = userSlice.actions

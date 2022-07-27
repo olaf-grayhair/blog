@@ -1,37 +1,55 @@
 import React, {FC, useState} from 'react';
+import { useNavigate } from "react-router-dom"
+import { useInput } from '../../hooks/input';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { uploaFile } from '../../store/actions/PostAction';
+import { createPost, uploaFile } from '../../store/actions/PostAction';
 import Button from '../../UI/Button/Button';
 import style from './createpost.module.scss';
 
 const CreatePost: React.FC = () => {
     const dispatch = useAppDispatch()
-    const {url} = useAppSelector(state => state.posts)
-    const [title, setTitle] = useState<string>('')
-    const [tags, setTags] = useState<string>('')
-    const [text, setText] = useState<string>('')
+    const {imageUrl} = useAppSelector(state => state.posts)
+    const title = useInput('')
+    const tags = useInput('')
+    const text = useInput('')
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-      ) => {
-        setTitle(e.target.value)
-    };
+    // const [title, setTitle] = useState<string>('')
+    // const [tags, setTags] = useState<string>('')
+    // const [text, setText] = useState<string>('')
 
-    const sendComment = () => {
+    // const handleChangeTitle = (
+    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    //   ) => {
+    //     setTitle(e.target.value)
+    // };
+    // const handleChangeTags = (
+    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    //   ) => {
+    //     setTags(e.target.value)
+    // };
+    // const handleChangeText = (
+    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    //   ) => {
+    //     setText(e.target.value)
+    // };
+    const navigate = useNavigate();
+    const sendPost = () => {
         const body = {
-            title,
-            tags,
-            text,
-            url
+            title: title.value,
+            tags: tags.value,
+            text: text.value,
+            imageUrl
         }
-
-        setTitle('')
+        // const formData = new FormData()
+        // formData.append('title', title)
+        // formData.append('tags', tags)
+        // formData.append('text', text)
+        // formData.append('imageUrl', imageUrl)
+        // console.log(formData);
+        
+        dispatch(createPost(body))
+        navigate('../', { replace: true })
     }
-
-    // const sendImg = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //     let file = e.target.files;
-    //     uploadAvatar(file)
-    // }
 
     function sendImg(e: React.ChangeEvent<HTMLInputElement>) {
         let file: any = e.target.files?.[0]; 
@@ -54,20 +72,30 @@ const CreatePost: React.FC = () => {
                     />
                 </label>
             </div>
-            <img className={style.poster} src={url === '' ? 'No image' : url} alt="" />
+            <img className={style.poster} src={imageUrl === '' ? 'No image' : imageUrl} alt="" />
             <div className={style.input__block}>
                 <label htmlFor="name">Title</label>
-                <input className={style.input} type='text' placeholder='write your title here...' />
+                <input className={style.input} type='text' placeholder='write your title here...'
+                onChange={title.onChange}
+                value={title.value}
+                 />
             </div>
             <div className={style.tags__block}>
                 <label htmlFor="name">Tags</label>
-                <input className={style.input} type='text' placeholder='Add up to 4 tags...' />
+                <input className={style.input} type='text' 
+                placeholder='Add up to 4 tags...'
+                onChange={tags.onChange}
+                value={tags.value}
+                />
             </div>
             <div className={style.text__block}>
                 <label htmlFor="name">Title</label>
-                <textarea className={style.textarea} placeholder='write your post content here...'></textarea>
+                <textarea className={style.textarea} placeholder='write your post content here...'
+                onChange={text.onChange}
+                value={text.value}
+                ></textarea>
             </div>
-            <Button value='publish' bgColor='gray'/>
+            <Button value='publish' bgColor='gray' action={sendPost}/>
         </div>
     );
 }

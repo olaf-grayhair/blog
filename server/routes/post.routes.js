@@ -8,6 +8,7 @@ const PostController = require('../controllers/PostController');
 const {upload} = require('../utils/multe');
 
 const CommentController = require('../controllers/CommentController');
+const deleteMiddleware = require('../middleware/deleteMiddleware');
 
 
 
@@ -19,9 +20,9 @@ router.get('/:id', PostController.findOne);
 
 router.post('/:id/comment',TextValidation, mistakes, authMiddleware, CommentController.create);
 router.get('/comments/:id', CommentController.getPostComments);
-router.post('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
+router.delete('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
 
 router.put('/:id', authMiddleware, upload.single('image'), PostController.update);
-router.delete('/delete/:id', roleMiddleware(['ADMIN']), PostController.delete);
+router.delete('/delete/:id', authMiddleware, PostController.delete);
 
 module.exports = router

@@ -24,11 +24,25 @@ class CommentController {
 
     async delete(req, res) {
         try {
-            console.log(req.params.id);
-            const comment = await Comment.findOneAndDelete({_id: req.params.id})
-            if(!comment) {
-                return res.status(404).json({message: 'comment not found'})
+            const userId = req.user.id
+            const comment = await Comment.findOne({_id: req.params.id})
+            console.log(comment.user.toString(),  userId);
+            if(comment.user.toString() === userId) {
+
+                await Comment.findOneAndDelete({_id: comment})
+
+                const post = await Post.findOneAndUpdate({_id: comment.post}, { $pull: { "comments": comment._id } })
+
+                // const post = await Post.findOne({_id: comment.post})
+
+                console.log(post, 'POST');
+            }else {
+                return res.json('cannot delete comment, you are not owner')
             }
+
+            // if(!comment) {
+            //     return res.status(404).json({message: 'comment not found'})
+            // }
 
             return res.json('comment was deleted')
             

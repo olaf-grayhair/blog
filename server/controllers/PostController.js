@@ -5,16 +5,17 @@ const User = require('../models/User');
 class PostController {
     async create(req, res) {
         try {
-            let url = ''
-            if (req.file === undefined) {
-                url = ''
-            } else {
-                url = `/uploads/${req.file.originalname}`
-            }
-
+            // let url = ''
+            // if (req.file === undefined) {
+            //     url = ''
+            // } else {
+            //     url = `/uploads/${req.file.originalname}`
+            // }
+            console.log(req.body);
             const file = {
                 ...req.body,
-                imageUrl: url, user: req.user.id
+                // imageUrl: url, 
+                user: req.user.id
             }
 
             const ifPost = await Post.findOne({ title: req.body.title })
@@ -34,16 +35,29 @@ class PostController {
             return res.json({ post })
 
         } catch (error) {
-            console.log(error);
+            res.json({ message: 'Что-то пошло не так.' })
         }
     }
 
     async delete(req, res) {
         try {
-            const post = await Post.findOneAndDelete({ _id: req.params.id })
-            if (!post) {
-                return res.status(404).json({ message: 'article not found' })
+            console.log('req.user');
+            // const post = await Post.findOneAndDelete({ _id: req.params.id })
+            const userId = req.user.id
+            const postId = req.params.id
+            const post = await Post.findById({ _id: postId})
+            console.log(req.user.id === post.user.toString());
+
+            if(userId === post.user.toString()) {
+                await Post.findOneAndDelete({ _id: postId})
+                await User.findOneAndUpdate({_id:userId}, { $pull: { "posts": postId } })
+            }else {
+                return res.json('cannot delete post, you are not owner')
             }
+
+            // if (!post) {
+            //     return res.status(404).json({ message: 'article not found' })
+            // }
 
             return res.json('post deleted')
 

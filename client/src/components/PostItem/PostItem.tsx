@@ -35,14 +35,13 @@ const PostItem: React.FC<IPost> = ({
 
     return (
         <div className={style.post__item}>
-            <Link to='/post' className={style.link__img}>
-                <img src={imageUrl? URL_API + imageUrl : noImg} alt="" />
+            <Link to={'/post/' + _id} className={style.link__img}>
+                <img src={imageUrl? imageUrl : noImg} alt="" />
             </Link>
 
             <UserItem 
             timestamps={timestamps}
             {...user} 
-            // _id={_id} 
             />
             <div className={style.content__block}>
                 <Link 

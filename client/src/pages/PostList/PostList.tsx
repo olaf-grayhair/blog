@@ -7,7 +7,7 @@ import style from './postlist.module.scss';
 
 
 const PostList: React.FC = () => {
-    const {posts, isLoading, error} = useAppSelector(state => state.posts)
+    const {posts, isLoading, error, postsLength} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
     useEffect(() => {
@@ -15,6 +15,11 @@ const PostList: React.FC = () => {
         console.log('effect');
         
       },[]);
+
+    //   useEffect(() => {
+    //     console.log('post update');
+
+    //   },[postsLength]);
 
     const postsArray = posts.map((post, id) => <PostItem key={post._id} {...post}/>)
 
