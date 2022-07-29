@@ -35,6 +35,19 @@
                         margin-bottom: 20px;
                         font-size: 30px;
                     }
+
+                    .article__icons{
+                        margin-top: 30px;
+                        display: flex;
+                        align-items: center;
+                        .icon{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            margin-right: 10px;
+                        }
+                    }
                 }
 
 

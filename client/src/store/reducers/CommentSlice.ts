@@ -1,17 +1,17 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IComment, IComments, IUser } from "../../types/types";
-import { fetcPostComments, fetcCommentCreate } from "../actions/CommentAction";
+import { fetcPostComments, fetcCommentCreate, fetchCommentDelete } from "../actions/CommentAction";
 
 export interface OnePostState {
     isLoading: boolean;
     error: string;
     comments: IComment[];
-    // users: IUser[];
+    commentId: string;
 }
 
 const initialState: OnePostState = {
     comments: [],
-    // users: [],
+    commentId: '',
     isLoading: false,
     error: '',
 }
@@ -19,7 +19,11 @@ const initialState: OnePostState = {
 const commentSlice = createSlice({
     name: 'comments',
     initialState,
-    reducers: {},
+    reducers: {
+        setCommentId(state, action: PayloadAction<string>) {
+            state.commentId = action.payload
+        },
+    },
     // reducers: {
     //     getCommnentspending(state) {
     //         state.isLoading = true
@@ -38,7 +42,7 @@ const commentSlice = createSlice({
         [fetcCommentCreate.pending.type]: (state) => {
             state.isLoading = true
         },
-        [fetcCommentCreate.fulfilled.type]: (state, action:PayloadAction<any>) => {
+        [fetcCommentCreate.fulfilled.type]: (state, action: PayloadAction<any>) => {
             state.isLoading = false
             state.error = ''
             state.comments.push(action.payload)
@@ -51,7 +55,7 @@ const commentSlice = createSlice({
         [fetcPostComments.pending.type]: (state) => {
             state.isLoading = true
         },
-        [fetcPostComments.fulfilled.type]: (state, action:PayloadAction<IComments>) => {
+        [fetcPostComments.fulfilled.type]: (state, action: PayloadAction<IComments>) => {
             state.isLoading = false
             state.error = ''
             state.comments = action.payload.comments;
@@ -60,8 +64,21 @@ const commentSlice = createSlice({
             state.isLoading = false
             state.error = action.payload
         },
+        //delete comment
+        [fetchCommentDelete.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchCommentDelete.fulfilled.type]: (state, action: PayloadAction<IComment>) => {
+            state.error = ''
+            state.isLoading = false
+            state.comments = state.comments.filter(comment => comment._id !== action.payload._id);
+        },
+        [fetchCommentDelete.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.error = action.payload
+        },
     }
 })
 
 export default commentSlice.reducer
-// export const {getCommnentspending, getCommnents, getCommnentsError} = commentSlice.actions
+export const {setCommentId} = commentSlice.actions

@@ -10,11 +10,14 @@ const UserMenu: React.FC = () => {
     const logout = () => {
         dispatch(userLogout())
     }
+    console.log(user.posts, 'menu');
+    
     return (
         <div className={style.usermenu}>
             <ul className={style.list}>
                 <Link to='info'><li className={style.item}>{user.email}</li></Link>
                 <Link to='setting'><li className={style.item}>Settings</li></Link>
+                <li className={style.item}>My posts</li>
                 <li className={style.item} onClick={logout}>Sing out</li>
             </ul>
         </div>

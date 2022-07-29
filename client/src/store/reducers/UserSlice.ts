@@ -46,6 +46,7 @@ const userSlice = createSlice({
         },
         userLogout(state) {
             state.isAuth = false;
+            state.user = {} as IUserInfo
             localStorage.removeItem('token_blog')
             state.error = ''
         },

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchOnePost } from '../../store/actions/PostAction';
-
+import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { URL_API } from '../url';
 import style from './postitem.module.scss';
@@ -9,6 +9,8 @@ import noImg from '../../assets/no_img.jpg'
 import { monthFunck } from '../months';
 import { IPost } from '../../types/types';
 import UserItem from '../UserItem/UserItem';
+import { endOfWords } from '../endOfWords';
+import Button from '../../UI/Button/Button';
 
 interface PostItemProps{
     title: string;
@@ -55,10 +57,22 @@ const PostItem: React.FC<IPost> = ({
                 </div>
                 <div className={style.bottom__block}>
                     <div className={style.details__block}>
-                        <span className={style.icon}>like</span>
-                        <span className={style.icon}>{comments.length} comment</span>
+                        <span className={style.item}
+                        >
+                            <AiOutlineHeart 
+                            className={style.icon}
+                            size={"1.4em"}
+                            /> 
+                            {endOfWords(comments.length, ' like')}</span>
+                        <span className={style.item}>
+                            <AiOutlineComment 
+                            size={"1.4em"} 
+                            className={style.icon}
+                            /> 
+                            {comments.length < 1 ? '' : comments.length} 
+                            {endOfWords(comments.length, ' comment')}</span>
                     </div>
-                    <button>save</button>
+                    <Button value='save' bgColor='gold'/>
                 </div>
             </div>
         </div>

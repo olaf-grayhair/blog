@@ -15,6 +15,8 @@ class CommentController {
             
             const postId = await Comment.findOne({text:req.body.text})
 
+            comment.user = await User.findById(comment.user, "firstName surName avatarUrl")
+
             await Post.findOneAndUpdate({_id:req.params.id}, { $push: { "comments": postId._id } })
             return res.json(comment)
         } catch (error) {
@@ -28,23 +30,19 @@ class CommentController {
             const comment = await Comment.findOne({_id: req.params.id})
             console.log(comment.user.toString(),  userId);
             if(comment.user.toString() === userId) {
-
                 await Comment.findOneAndDelete({_id: comment})
 
-                const post = await Post.findOneAndUpdate({_id: comment.post}, { $pull: { "comments": comment._id } })
+                await Post.findOneAndUpdate({_id: comment.post}, { $pull: { "comments": comment._id } })
 
-                // const post = await Post.findOne({_id: comment.post})
-
-                console.log(post, 'POST');
+                // return res.json(comment)
             }else {
                 return res.json('cannot delete comment, you are not owner')
             }
-
             // if(!comment) {
             //     return res.status(404).json({message: 'comment not found'})
             // }
-
-            return res.json('comment was deleted')
+            return res.json(comment)
+            // return res.json('comment was deleted')
             
         } catch (error) {
             console.log(error);

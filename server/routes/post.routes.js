@@ -16,7 +16,8 @@ router.post('/add', authMiddleware, upload.single('image'),PostController.create
 router.post('/upload', authMiddleware, upload.single('image'),PostController.upload);
 router.get('/all_posts', PostController.getPosts);
 router.get('/:id', PostController.findOne);
-// router.get('/:id', PostController.getPostUser);
+
+router.post('/:id/likes',authMiddleware, PostController.likesAndDislikes);
 
 router.post('/:id/comment',TextValidation, mistakes, authMiddleware, CommentController.create);
 router.get('/comments/:id', CommentController.getPostComments);

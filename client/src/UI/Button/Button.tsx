@@ -24,7 +24,6 @@ const Button: React.FC<ButtonProps> = ({value, action, color, bgColor}) => {
             return {backgroundColor: "#FFD662", color: 'black'}
         }
     }
-    console.log(color);
     
     return (
         <>

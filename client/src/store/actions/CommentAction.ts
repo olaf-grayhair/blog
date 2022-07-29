@@ -1,4 +1,4 @@
-import { IComment, IComments, IData, IOnePost, IPost } from "../../types/types";
+import { IComment, IComments, ICreate, IData, IOnePost, IPost } from "../../types/types";
 import { instance } from "../../components/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -10,15 +10,10 @@ export const fetcPostComments = createAsyncThunk(
             console.log(response.data);
             return response.data
         } catch (e) {
-            console.log('get post error')
+            console.log('error in fetch comments')
         }
     }
 )
-
-export interface ICreate {
-    id: string;
-    text: string;
-}
 
 export const fetcCommentCreate = createAsyncThunk(
     'comments/createComment',
@@ -31,7 +26,21 @@ export const fetcCommentCreate = createAsyncThunk(
             console.log(response.data);
             return response.data
         } catch (e) {
-            console.log('get post error')
+            console.log('error in comment create')
+        }
+    }
+)
+
+export const fetchCommentDelete = createAsyncThunk(
+    'comments/deletComment',
+    async (id: string) => {
+
+        try {
+            const response = await instance.delete<string>(`api/comment/delete/${id}`)
+            console.log(response.data);
+            return response.data
+        } catch (e) {
+            console.log('error in comment delete')
         }
     }
 )

@@ -1,4 +1,5 @@
 require('dotenv').config()
+const Likes = require('../models/Likes');
 const Post = require('../models/Post');
 const User = require('../models/User');
 
@@ -11,11 +12,13 @@ class PostController {
             // } else {
             //     url = `/uploads/${req.file.originalname}`
             // }
-            console.log(req.body);
+
+            const like = await Likes.create({"likes": 0})
             const file = {
                 ...req.body,
                 // imageUrl: url, 
-                user: req.user.id
+                user: req.user.id,
+                // likes: like
             }
 
             const ifPost = await Post.findOne({ title: req.body.title })
@@ -23,13 +26,15 @@ class PostController {
             if (ifPost) {
                 return res.status(404).json({ message: 'article already exist!' })
             }
-
             const post = await Post.create(file)
 
             const postId = await Post.findOne({ title: req.body.title })
-            console.log(postId._id);
+            console.log(like);
 
-            await User.findOneAndUpdate({ _id: req.user.id }, { $push: { "posts": postId._id } })
+            await User.findOneAndUpdate({ _id: req.user.id }, 
+                { 
+                    $push: { "posts": postId._id,} 
+                })
             ////need to OPTIMIZED ??
 
             return res.json({ post })
@@ -104,7 +109,23 @@ class PostController {
 
     async getPosts(req, res) {
         try {
-            const postsArray = await Post.find().lean()
+            console.log(req.query);
+            const {sort} = req.query
+            let postsArray
+            switch (sort) {
+                case 'date':
+                    postsArray = await Post.find().sort({timestamps:1}).lean()
+                    break
+                case 'comments':
+                    postsArray = await Post.find().sort({comments:-1}).lean()
+                    break
+                case 'likes':
+                    postsArray = await Post.find().sort({likes:-1}).lean()
+                    break
+                default:
+                    postsArray = await Post.find().lean()
+            }  
+            // const postsArray = await Post.find().lean()
             const postsLength = await Post.countDocuments()
 
             const users = await Promise.all(
@@ -147,6 +168,68 @@ class PostController {
     //         res.json({ message: 'No comments' })
     //     }
     // }
+    async likesAndDislikes(req, res) {
+        try {
+            let userId = req.user.id
+            let postId = req.params.id
+            const likeItem = await Likes.findOne({"post": postId, "user": userId})
+
+            if(!likeItem) {
+                let likeDoc = new Likes({"post": postId, "user": userId})
+                let likeData = await likeDoc.save()
+
+                await Post.findByIdAndUpdate({_id: postId}, {
+                    $push: {"likes": likeData._id},
+                })
+                return res.status(200).send({category: 'like', result: 'create'})
+            }else{
+                await Likes.deleteOne({_id: likeItem._id})
+                await Post.findByIdAndUpdate({_id: postId}, {
+                    $pull: {"likes": likeItem._id},
+                })
+                return res.status(200).send({category: 'like', result: 'remove'})
+            }
+
+
+            let name = {"user": userId}
+
+            console.log(req.body);
+            switch(likeStatus) {
+                case 1 :
+                    like = await Likes.findOneAndUpdate(name, {
+                        $inc: { likes: 1 },
+                        $push: {"user": userId}
+                    })
+                    post = await Post.findByIdAndUpdate({_id: postId}, {
+                        $push: {"likes": like},
+                    })
+                    break
+                case -1 :
+                    like = await Likes.findOneAndUpdate(name, {
+                        $inc: { likes: -1 },
+                        $push: {"user": userId}
+                    })
+                    post = await Post.findByIdAndUpdate({_id: postId}, {
+                        $push: {"likes": like},
+                    })
+                    break
+                case 0:
+                    like = await Likes.findOneAndUpdate(name, {
+                        $inc: { likes: -1 },
+                        $pull: {"user": userId}
+                    })
+                    post = await Post.findByIdAndUpdate({_id: postId}, {
+                        $pull: {"likes": like},
+                    })
+                    break
+            }
+
+            console.log(like, post);
+            res.json({ like, post })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new PostController()

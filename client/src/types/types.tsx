@@ -12,6 +12,7 @@ export interface IPost {
     imageUrl: string;
     timestamps: string;
     user: object;
+    likes?: any[]; 
     comments: IComment[];
 }
 ///one page
@@ -61,5 +62,15 @@ export interface ICreatePost {
     url: string;
 }
 
+///create comment
+export interface ICreate {
+    id: string;
+    text: string;
+}
+///like post
+export interface ILike {
+    category: string;
+    result: string;
+}
 
 

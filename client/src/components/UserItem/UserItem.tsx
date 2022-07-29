@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useAppSelector } from '../../hooks/redux';
 import { monthFunck } from '../months';
 import style from './useritem.module.scss';
@@ -21,7 +21,10 @@ const UserItem: React.FC<UserItemProps> = ({
     firstName, 
     surName
     }) => {
+        console.log(firstName, surName, 'userIt');
+        useEffect(() => {
 
+        }, [firstName]);
     
     return (
         <div className={style.useritem}>
