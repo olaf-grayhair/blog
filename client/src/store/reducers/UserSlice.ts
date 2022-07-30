@@ -7,6 +7,7 @@ interface UserState {
     isAuth: boolean,
     menu: boolean,
     popup: boolean,
+    popupPost: boolean,
     error: string,
     token: string;
 }
@@ -17,6 +18,7 @@ const initialState: UserState = {
     isLoading: false,
     menu: false,
     popup: false,
+    popupPost: false,
     error: '',
     token: '',
 }
@@ -44,6 +46,9 @@ const userSlice = createSlice({
         showPopup(state, action: PayloadAction<boolean>) {
             state.popup = action.payload
         },
+        showPopupPost(state, action: PayloadAction<boolean>) {
+            state.popupPost = action.payload
+        },
         userLogout(state) {
             state.isAuth = false;
             state.user = {} as IUserInfo
@@ -55,4 +60,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const {userPending, userLogin, userError, showMenu,showPopup, userLogout} = userSlice.actions
+export const {userPending, userLogin, userError, showMenu,showPopup, showPopupPost, userLogout} = userSlice.actions

@@ -1,7 +1,9 @@
 require('dotenv').config()
 const Likes = require('../models/Likes');
+const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const User = require('../models/User');
+const fs = require('fs')
 
 class PostController {
     async create(req, res) {
@@ -46,15 +48,20 @@ class PostController {
 
     async delete(req, res) {
         try {
-            console.log('req.user');
             // const post = await Post.findOneAndDelete({ _id: req.params.id })
             const userId = req.user.id
             const postId = req.params.id
             const post = await Post.findById({ _id: postId})
             console.log(req.user.id === post.user.toString());
+            if(post.imageUrl) {
+                const path = post.imageUrl.split('http://localhost:5000/').pop()
+                fs.unlinkSync(path)
+            }
 
             if(userId === post.user.toString()) {
                 await Post.findOneAndDelete({ _id: postId})
+                await Comment.deleteMany({ post: postId})
+                await Likes.deleteMany({ post: postId})
                 await User.findOneAndUpdate({_id:userId}, { $pull: { "posts": postId } })
             }else {
                 return res.json('cannot delete post, you are not owner')
@@ -64,7 +71,7 @@ class PostController {
             //     return res.status(404).json({ message: 'article not found' })
             // }
 
-            return res.json('post deleted')
+            return res.json(post)
 
         } catch (error) {
             console.log(error);
@@ -111,6 +118,7 @@ class PostController {
         try {
             console.log(req.query);
             const {sort} = req.query
+            console.log(sort);
             let postsArray
             switch (sort) {
                 case 'date':

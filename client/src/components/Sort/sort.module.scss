@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 30px;
-    li{
+    .item, .active{
         text-transform: capitalize;
         font-size: 20px;
         font-weight: 700;
@@ -16,5 +16,8 @@
             background-color: coral;
             
         }
+    }
+    .active{
+        color: gold;
     }
 }

@@ -21,9 +21,34 @@
             padding: 10px 10px 40px 10px;
             border-radius: 10px;
             background-color: #282D3C;
+            position: relative;
+            .owner__icons{
+                width: 80px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                .icon{
+                    height: 2em;
+                    width: 2em;
+                    cursor: pointer;
+                    transition: all ease .4s;
+                    padding: 5px;
+                    border-radius: 50%;
+                    &:hover{
+                        background-color: gray;
+                    }
+                }
+            }
             .poster{
-                margin-bottom: 20px;
-                width: 100%;
+                // margin-bottom: 20px;
+                // width: 100%;
+                max-width: 100%;
+                min-width: 40%;
+                margin: 40px auto;
+                display: block;
             }
 
             .text__block{
@@ -40,12 +65,15 @@
                         margin-top: 30px;
                         display: flex;
                         align-items: center;
-                        .icon{
+                        .icon, .icon__active{
                             display: flex;
                             align-items: center;
                             justify-content: center;
                             cursor: pointer;
                             margin-right: 10px;
+                        }
+                        .icon__active{
+                            fill: #f70c0c;
                         }
                     }
                 }

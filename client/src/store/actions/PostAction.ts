@@ -10,7 +10,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchPosts = createAsyncThunk(
     'posts/getAll',
      async (sortItem?: string) => {
-        let query
+        
+        let query = ''
         if(sortItem === 'date') {
             query = '?sort=date'
         }
@@ -19,10 +20,11 @@ export const fetchPosts = createAsyncThunk(
         }
         if(sortItem === 'likes') {
             query = '?sort=likes'
-        }else {
+        }
+        if(sortItem === '') {
             query = ''
         }
-
+        
         try{
             const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts${query}`)
             return response.data
@@ -99,6 +101,19 @@ export const fetchLike = createAsyncThunk(
         
         try{
             const response = await instance.post<object>(`api/post/${id}/likes`)
+            return response.data
+        }catch(e) {
+            console.log('upload error')
+        }
+    }
+)
+
+export const fetchDeletePost = createAsyncThunk(
+    'post/delete',
+     async (id: string) => {
+        console.log(id, 'like');
+        try{
+            const response = await instance.delete<object>(`api/post/delete/${id}`)
             return response.data
         }catch(e) {
             console.log('upload error')

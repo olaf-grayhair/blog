@@ -21,10 +21,11 @@ const UserItem: React.FC<UserItemProps> = ({
     firstName, 
     surName
     }) => {
-        console.log(firstName, surName, 'userIt');
-        useEffect(() => {
 
-        }, [firstName]);
+    useEffect(() => {
+        // console.log(firstName, surName, 'userItem');
+
+    }, [firstName]);
     
     return (
         <div className={style.useritem}>

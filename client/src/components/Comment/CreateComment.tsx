@@ -15,7 +15,8 @@ const CreateComment: React.FC<{ _id: string; }> = ({_id}) => {
       ) => {
         setText(e.target.value)
     };
-
+    // console.log(_id, 'userID');
+    
     const sendComment = () => {
         const body = {text: text, id: _id}
         dispatch(fetcCommentCreate(body))

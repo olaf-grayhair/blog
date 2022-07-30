@@ -16,10 +16,13 @@ const PostList: React.FC = () => {
         
       },[]);
 
-    //   useEffect(() => {
-    //     console.log('post update');
-
-    //   },[postsLength]);
+      if (!posts.length) {
+        return (
+            <div>
+                Постов не существует.
+            </div>
+        )
+    }
 
     const postsArray = posts.map((post, id) => <PostItem key={post._id} {...post}/>)
 

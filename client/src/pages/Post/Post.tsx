@@ -1,24 +1,24 @@
 import React, { FC, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from '../../components/Loader/Loader';
 import Popup from '../../components/Popup/Popup';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCommentDelete, fetcPostComments } from '../../store/actions/CommentAction';
-import { fetchLike, fetchOnePost } from '../../store/actions/PostAction';
-import { showPopup } from '../../store/reducers/UserSlice';
+import { fetchDeletePost, fetchLike, fetchOnePost } from '../../store/actions/PostAction';
+import { setCommentId } from '../../store/reducers/CommentSlice';
+import { showPopup, showPopupPost } from '../../store/reducers/UserSlice';
 import PostOne from './PostOne';
 
 const Post: React.FC = () => {
     const { id } = useParams() as { id: string }
+    const navigate = useNavigate();
 
     const { isLoading, error, post } = useAppSelector(state => state.post)
-    const popup = useAppSelector(state => state.users.popup)
+    const {popup, popupPost} = useAppSelector(state => state.users)
     const {commentId, comments} = useAppSelector(state => state.comment)
     const dispatch = useAppDispatch()
 
-    // let a = comments.filter(el => el._id === commentId)
-    // console.log(commentId);
-    // console.log(a, 'A');
+    const { isAuth, user } = useAppSelector(state => state.users)
     
     
     useEffect(() => {
@@ -28,26 +28,50 @@ const Post: React.FC = () => {
 
     const closePopup = () => {
         dispatch(showPopup(false))
+        dispatch(showPopupPost(false))
     }
 
     const deleteComment = () => {
         dispatch(fetchCommentDelete(commentId))
+        dispatch(setCommentId(''))
         dispatch(showPopup(false))
+    }
+
+    const deletePost = () => {
+        dispatch(fetchDeletePost(commentId))
+        dispatch(setCommentId(''))
+        dispatch(showPopupPost(false))
+        navigate('../', { replace: true })
     }
 
     const likeToogle = (postId:string) => {
         dispatch(fetchLike(postId))
     }
 
+
     return (
         <>
             {/* <PostOne {...post}/> */}
-            {!isLoading ? <PostOne {...post} action={likeToogle}/> : <Loader />}
+            {Object.keys(post).length > 1 
+            ? <PostOne {...post} 
+                action={likeToogle}
+                isAuth={isAuth}
+                userId={user._id}
+                /> 
+            : <Loader />}
+
             {popup && <Popup
                 title='delete comment?'
                 popup={popup}
                 close={closePopup}
                 action={deleteComment}
+            />}
+
+            {popupPost && <Popup
+                title='delete post?'
+                popup={popupPost}
+                close={closePopup}
+                action={deletePost}
             />}
 
         </>

@@ -13,25 +13,6 @@ const CreatePost: React.FC = () => {
     const tags = useInput('')
     const text = useInput('')
 
-    // const [title, setTitle] = useState<string>('')
-    // const [tags, setTags] = useState<string>('')
-    // const [text, setText] = useState<string>('')
-
-    // const handleChangeTitle = (
-    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    //   ) => {
-    //     setTitle(e.target.value)
-    // };
-    // const handleChangeTags = (
-    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    //   ) => {
-    //     setTags(e.target.value)
-    // };
-    // const handleChangeText = (
-    //     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    //   ) => {
-    //     setText(e.target.value)
-    // };
     const navigate = useNavigate();
     const sendPost = () => {
         const body = {

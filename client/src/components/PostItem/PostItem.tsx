@@ -31,9 +31,11 @@ const PostItem: React.FC<IPost> = ({
     imageUrl, 
     _id, 
     comments,
-    user
+    user,
+    likes
  }) => {
 
+    
 
     return (
         <div className={style.post__item}>
@@ -63,7 +65,8 @@ const PostItem: React.FC<IPost> = ({
                             className={style.icon}
                             size={"1.4em"}
                             /> 
-                            {endOfWords(comments.length, ' like')}</span>
+                            {likes.length < 1 ? '' : likes.length}
+                            {endOfWords(likes.length, ' like')}</span>
                         <span className={style.item}>
                             <AiOutlineComment 
                             size={"1.4em"} 

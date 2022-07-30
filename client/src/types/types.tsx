@@ -12,7 +12,7 @@ export interface IPost {
     imageUrl: string;
     timestamps: string;
     user: object;
-    likes?: any[]; 
+    likes: ILike[]; 
     comments: IComment[];
 }
 ///one page
