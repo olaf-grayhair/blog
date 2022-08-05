@@ -12,18 +12,19 @@ const deleteMiddleware = require('../middleware/deleteMiddleware');
 
 
 
-router.post('/add', authMiddleware, upload.single('image'),PostController.create);
-router.post('/upload', authMiddleware, upload.single('image'),PostController.upload);
+router.get('/tags', PostController.seacrchByTags);
+router.get('/user_posts',authMiddleware, PostController.userPost);
 router.get('/all_posts', PostController.getPosts);
+router.get('/search', PostController.seacrchPost);
 router.get('/:id', PostController.findOne);
 
 router.post('/:id/likes',authMiddleware, PostController.likesAndDislikes);
-
 router.post('/:id/comment',TextValidation, mistakes, authMiddleware, CommentController.create);
-router.get('/comments/:id', CommentController.getPostComments);
-router.delete('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
+router.post('/add', authMiddleware, upload.single('image'),PostController.create);
+router.post('/upload', authMiddleware, upload.single('image'),PostController.upload);
 
 router.put('/:id', authMiddleware, upload.single('image'), PostController.update);
+router.delete('/:id/comment/delete/:id', authMiddleware, CommentController.delete);
 router.delete('/delete/:id', authMiddleware, PostController.delete);
 
 module.exports = router

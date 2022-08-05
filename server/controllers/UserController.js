@@ -21,7 +21,7 @@ class UserController {
 
             const candidate = await User.findOne({email})
             if(candidate) {
-                return res.json({message: 'user already exists'})
+                return res.status(400).json({message: `user ${email} is already exists`})
             }
 
             ///HASH PASSWORD
@@ -40,7 +40,7 @@ class UserController {
 
             const token = generateJwt( user._id, user.email, user.roles);
 
-            return res.json({user, token})
+            return res.json({user, token, message: `${email} was register!`})
 
         } catch (error) {
             console.log(error);
@@ -61,15 +61,15 @@ class UserController {
             //CHECK PASSWORD
             const hashPassword = bcrypt.compareSync(password, user.password)
             if(!hashPassword) {
-                return res.status(400).json({message: `wrong password!`})
+                return res.status(400).json({message: `password is not found!`})
             }
 
             const token = generateJwt( user._id, user.email, user.roles);
 
-            return res.json({user, token})
+            return res.json({user, token, message:'login was successful'})
         } catch (error) {
-            console.log(error);
-            return res.status(500).json({message: 'erro in login'})
+            console.log('error');
+            return res.status(400).json({message: 'error in login'})
         }
     }
 
@@ -78,9 +78,10 @@ class UserController {
             const user = await User.findOne({_id: req.user.id})
             console.log(user._id, 'IDD');
             const token = generateJwt( user._id, user.email, user.role);
-            res.json({token, user, message: 'AUTH!'})
+            res.json({token, user, message: 'auth was successful'})
         } catch (error) {
             console.log(error);
+            return res.status(400).json({message: 'error in auth'})
         }
     }
 
@@ -95,24 +96,25 @@ class UserController {
         }
     }
 
-    async avatar(req, res) {
+    async update(req, res) {
         try {
-            let url = ''
-            if(req.file === undefined) {
-                url = ''
-            } else {
-                url = `/uploads/${req.file.originalname}`
-            }
-            
+            // let url = ''
+            // if(req.file === undefined) {
+            //     url = ''
+            // } else {
+            //     url = `/uploads/${req.file.originalname}`
+            // }
+            console.log(req.body, 'userchange');
             const file = {
-                firstName: req.body.firstName,
-                surName: req.body.surName,
-                avatarUrl: url,
+                // firstName: req.body.firstName,
+                // surName: req.body.surName,
+                // avatarUrl: url,
+                ...req.body
             }
 
             const user = await User.findOneAndUpdate({_id:req.user.id}, file, { new: true })
 
-            res.json(user)
+            res.json({user: user})
         } catch (error) {
             console.log(error);
         }

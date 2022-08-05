@@ -1,0 +1,13 @@
+.tags{
+    .item{
+        background-color: #282D3C;
+        padding: 10px 15px;
+        margin: 5px 0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all ease .4s;
+        &:hover{
+            background-color: black;
+        }
+    }
+}

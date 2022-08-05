@@ -19,7 +19,7 @@ const UserInfo: React.FC = () => {
     return (
         <div className={style.userinfo}>
             <div className={style.user__block}>
-                <img className={style.avatar} src={avatarUrl ? URL_API + avatarUrl : avatar} alt="" />
+                <img className={style.avatar} src={avatarUrl ? avatarUrl : avatar} alt="" />
                 <Link to='/setting' className={style.btn__move}>
                     <Button value='edit profile' bgColor='gold'/>
                 </Link>

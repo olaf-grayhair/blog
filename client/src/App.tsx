@@ -12,6 +12,7 @@ import UserInfo from './pages/User/UserInfo';
 import UserSetting from './pages/User/UserSetting';
 import { showMenu } from './store/reducers/UserSlice';
 import CreatePost from './pages/CreatePost/CreatePost';
+import MyPosts from './pages/PostList/MyPosts';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
               <Route path="/info" element={<UserInfo />} />
               <Route path="/setting" element={<UserSetting />} />
               <Route path="/new" element={<CreatePost />} />
+              <Route path="/my_posts" element={<MyPosts />} />
 
               <Route
                 path="*"

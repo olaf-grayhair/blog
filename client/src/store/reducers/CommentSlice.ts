@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IComment, IComments, IUser } from "../../types/types";
-import { fetcPostComments, fetcCommentCreate, fetchCommentDelete } from "../actions/CommentAction";
+import {  fetcCommentCreate, fetchCommentDelete } from "../actions/CommentAction";
 
 export interface OnePostState {
     isLoading: boolean;
@@ -24,21 +24,8 @@ const commentSlice = createSlice({
             state.commentId = action.payload
         },
     },
-    // reducers: {
-    //     getCommnentspending(state) {
-    //         state.isLoading = true
-    //     },
-    //     getCommnents(state, action:PayloadAction<IComments>) {
-    //         state.isLoading = false;
-    //         state.error = ''
-    //         state.comments = action.payload.comments;
-    //     },
-    //     getCommnentsError(state, action: PayloadAction<string>) {
-    //         state.isLoading = false
-    //         state.error = action.payload
-    //     },
-    // },
     extraReducers: {
+        //create comment
         [fetcCommentCreate.pending.type]: (state) => {
             state.isLoading = true
         },
@@ -48,19 +35,6 @@ const commentSlice = createSlice({
             state.comments.push(action.payload)
         },
         [fetcCommentCreate.rejected.type]: (state, action: PayloadAction<string>) => {
-            state.isLoading = false
-            state.error = action.payload
-        },
-        ///load comments
-        [fetcPostComments.pending.type]: (state) => {
-            state.isLoading = true
-        },
-        [fetcPostComments.fulfilled.type]: (state, action: PayloadAction<IComments>) => {
-            state.isLoading = false
-            state.error = ''
-            state.comments = action.payload.comments;
-        },
-        [fetcPostComments.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },

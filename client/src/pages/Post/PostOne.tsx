@@ -32,11 +32,12 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
     const [bool, setBool] = useState<boolean>(false)
     const { isLoading, error, post } = useAppSelector(state => state.post)
 
-
-    const { comments } = useAppSelector(state => state.comment)
+    console.log(post.comments);
+    
+    // const { comments } = useAppSelector(state => state.comment)
     const { like } = useAppSelector(state => state.posts)
 
-    const commnetsArray = comments.map(el => <Comment key={el._id} {...el} />)
+    const commnetsArray = post.comments.map(el => <Comment key={el._id} {...el} />)
 
     const dispatch = useAppDispatch()
 
@@ -44,26 +45,16 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
 
     const likeToogle = () => {
         dispatch(fetchLike(_id))
-        if(likeItem === '') {
-            localStorage.setItem('like', 'create')
-        }else {
-            localStorage.setItem('like', like)
-
-        }
     }
-    // console.log(userId, user._id);
 
-    
-    console.log(like, 'REDUX');
-    console.log(localStorage.getItem('like'), 'STORAGE' );
     const show = () => {
         dispatch(showPopupPost(true))
         dispatch(setCommentId(_id))
     }
 
-    useEffect(() => {
+    // useEffect(() => {
                
-      },[]);
+    //   },[]);
       
 
     return (
@@ -108,7 +99,7 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
                         </div>
                     </div>
                     <div className={style.comment__block}>
-                        <h3 className={style.discussion}>Discussion ({comments.length})</h3>
+                        <h3 className={style.discussion}>Discussion ({post.comments.length})</h3>
                         {isAuth && <CreateComment _id={_id} />}
                         {commnetsArray}
                     </div>

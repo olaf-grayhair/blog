@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from '../../components/Loader/Loader';
 import Popup from '../../components/Popup/Popup';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchCommentDelete, fetcPostComments } from '../../store/actions/CommentAction';
+import { fetchCommentDelete } from '../../store/actions/CommentAction';
 import { fetchDeletePost, fetchLike, fetchOnePost } from '../../store/actions/PostAction';
 import { setCommentId } from '../../store/reducers/CommentSlice';
 import { showPopup, showPopupPost } from '../../store/reducers/UserSlice';
@@ -19,12 +19,12 @@ const Post: React.FC = () => {
     const dispatch = useAppDispatch()
 
     const { isAuth, user } = useAppSelector(state => state.users)
-    
-    
+    const { like } = useAppSelector(state => state.posts)
+
     useEffect(() => {
         dispatch(fetchOnePost(id))
-        dispatch(fetcPostComments(id))
-    }, []);
+
+    }, [like]);
 
     const closePopup = () => {
         dispatch(showPopup(false))

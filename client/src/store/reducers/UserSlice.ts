@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IUserInfo, IUserLogin } from "../../types/types";
+import { fetchUserAuth, fetchUserLogin, fetchUserRegistration, fetchUserSetting } from "../actions/UserAction";
 
 interface UserState {
     user: IUserInfo;
@@ -8,7 +9,7 @@ interface UserState {
     menu: boolean,
     popup: boolean,
     popupPost: boolean,
-    error: string,
+    message: string,
     token: string;
 }
 
@@ -19,7 +20,7 @@ const initialState: UserState = {
     menu: false,
     popup: false,
     popupPost: false,
-    error: '',
+    message: '',
     token: '',
 }
 
@@ -27,19 +28,19 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        userPending(state) {
-            state.isLoading = true
-        },
-        userLogin(state, action: PayloadAction<IUserLogin>) {
-            state.isLoading = false;
-            state.isAuth = true;
-            state.error = ''
-            state.user = action.payload.user;
-        },
-        userError(state, action: PayloadAction<string>) {
-            state.isLoading = false
-            state.error = action.payload
-        },
+        // userPending(state) {
+        //     state.isLoading = true
+        // },
+        // userLogin(state, action: PayloadAction<IUserLogin>) {
+        //     state.isLoading = false;
+        //     state.isAuth = true;
+        //     state.message = ''
+        //     state.user = action.payload.user;
+        // },
+        // userError(state, action: PayloadAction<string>) {
+        //     state.isLoading = false
+        //     state.message = action.payload
+        // },
         showMenu(state, action: PayloadAction<boolean>) {
             state.menu = action.payload
         },
@@ -53,11 +54,71 @@ const userSlice = createSlice({
             state.isAuth = false;
             state.user = {} as IUserInfo
             localStorage.removeItem('token_blog')
-            state.error = ''
+            state.message = ''
         },
-        
+
+    },
+    extraReducers: {
+        ///user registration
+        [fetchUserRegistration.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchUserRegistration.fulfilled.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false;
+            state.isAuth = true;
+            state.message = action.payload.message
+            state.user = action.payload.user;
+        },
+        [fetchUserRegistration.rejected.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false
+            state.message = action.payload.message
+        },
+        ///user login
+        [fetchUserLogin.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchUserLogin.fulfilled.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false;
+            state.isAuth = true;
+            state.message = action.payload.message
+            state.user = action.payload.user;
+        },
+        [fetchUserLogin.rejected.type]: (state, action: PayloadAction<IUserLogin>) => {
+            // debugger
+            state.isLoading = false
+            state.message = action.payload.message
+        },
+        ///user auth
+        [fetchUserAuth.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchUserAuth.fulfilled.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false;
+            state.isAuth = true;
+            state.message = action.payload.message
+            state.user = action.payload.user;
+        },
+        [fetchUserAuth.rejected.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false
+            state.message = action.payload.message
+        },
+        ///update user setting
+        [fetchUserSetting.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchUserSetting.fulfilled.type]: (state, action: PayloadAction<IUserLogin>) => {
+            state.isLoading = false
+            state.message = ''
+            state.user = action.payload.user
+        },
+        [fetchUserSetting.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.message = action.payload
+        },
     }
 })
 
 export default userSlice.reducer
-export const {userPending, userLogin, userError, showMenu,showPopup, showPopupPost, userLogout} = userSlice.actions
+export const { 
+    // userPending, userLogin, userError, 
+    showMenu, showPopup, showPopupPost, userLogout } = userSlice.actions

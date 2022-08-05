@@ -1,16 +1,12 @@
 import React, { FC, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchOnePost } from '../../store/actions/PostAction';
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { URL_API } from '../url';
 import style from './postitem.module.scss';
-import noImg from '../../assets/no_img.jpg'
-import { monthFunck } from '../months';
-import { IPost } from '../../types/types';
-import UserItem from '../UserItem/UserItem';
-import { endOfWords } from '../endOfWords';
-import Button from '../../UI/Button/Button';
+import noImg from '../../../assets/no_img.jpg'
+import { IPost } from '../../../types/types';
+import UserItem from '../../../components/UserItem/UserItem';
+import { endOfWords } from '../../../components/endOfWords';
+import Button from '../../../UI/Button/Button';
 
 interface PostItemProps{
     title: string;

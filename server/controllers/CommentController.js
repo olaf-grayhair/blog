@@ -64,31 +64,6 @@ class CommentController {
             console.log(error);
         }
     }
-
-    async getPostComments(req, res) {
-        try {
-            const post = await Post.findById(req.params.id)
-            // console.log(post.comments);
-            const commentsPost = await Promise.all(
-                post.comments.map((comment) => {
-                    return Comment.findById(comment).lean()
-                }),
-            )
-
-            const users = await Promise.all(
-                commentsPost.map((el) => {
-                    return User.findById(el.user, "firstName surName avatarUrl").exec()
-                }),
-            )
-
-            let comments = commentsPost.map(comm => ({...comm, user: users.find(el => comm.user.toString() === el._id.toString())}))
-
-
-            res.json({comments})
-        } catch (error) {
-            res.json({ message: 'No comments' })
-        }
-    }
 }
 
 module.exports = new CommentController()

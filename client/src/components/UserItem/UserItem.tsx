@@ -29,7 +29,7 @@ const UserItem: React.FC<UserItemProps> = ({
     
     return (
         <div className={style.useritem}>
-            <img src={avatarUrl ? URL_API + avatarUrl : avatar} 
+            <img src={avatarUrl ? avatarUrl : avatar} 
             alt="avatar" className={style.avatar} />
             <div className={style.user__block}>
                 <span>{firstName + ' ' + surName}</span>

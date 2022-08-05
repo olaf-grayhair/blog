@@ -17,7 +17,7 @@ const UserMenu: React.FC = () => {
             <ul className={style.list}>
                 <Link to='info'><li className={style.item}>{user.email}</li></Link>
                 <Link to='setting'><li className={style.item}>Settings</li></Link>
-                <li className={style.item}>My posts</li>
+                <Link to='my_posts'><li className={style.item}>My posts</li></Link>
                 <li className={style.item} onClick={logout}>Sing out</li>
             </ul>
         </div>

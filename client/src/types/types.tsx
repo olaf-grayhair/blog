@@ -42,6 +42,7 @@ export interface IUser {
 export interface IUserLogin {
     user: IUserInfo;
     token: string;
+    message: string;
 }
 ///userInfo
 export interface IUserInfo {

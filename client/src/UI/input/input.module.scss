@@ -1,16 +1,51 @@
-.input{
+.user__input{
     display: flex;
     flex-direction: column;
 
     label{
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        text-transform: capitalize;
     }
-    input{
+    .input{
         margin-bottom: 20px;
-        padding: 7.5px 10px;
+        padding: 7.5px 40px 7.5px 10px;
         color: black;
         font-weight: 600;
         border-radius: 10px;
         border: none;
+        border: 2px solid black;
+        &:focus{
+            border: 2px solid red;
+        }
     }
 }
+
+.file__input{
+    .upload__label {
+        max-width: 180px;
+        text-align: center;
+        cursor: pointer;
+        display: block;
+        transition: all 0.18s ease-in-out;
+        border: 2px dashed white;
+        font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+        min-width: 64px;
+        padding: 0 15px;
+        text-transform: uppercase;
+        font-size: 13px;
+        line-height: 30px;
+        transition: all ease .4s;
+        outline: none;
+        overflow: hidden;
+        border-radius: 2px;
+        font-weight: 500;
+        &:hover {
+            border: 2px dashed gold;
+            color: gold;
+        }
+    }
+    .upload__input{
+        display: none;
+    }
+}
+

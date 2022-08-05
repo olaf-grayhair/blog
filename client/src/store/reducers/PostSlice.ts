@@ -1,8 +1,8 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ICreatePost, IData, ILike, IPost } from "../../types/types";
-import { createPost, fetchDeletePost, fetchLike, fetchPosts, uploaFile } from "../actions/PostAction";
+import { createPost, fetchDeletePost, fetchLike, fetchPosts, fetchSearchPost, fetchUserPost, uploaFile } from "../actions/PostAction";
 
-interface PostState extends IData{
+interface PostState extends IData {
     // posts: IPost[];
     // postsLength: number ;
     isLoading: boolean;
@@ -74,7 +74,8 @@ const postSlice = createSlice({
         [fetchLike.fulfilled.type]: (state, action: PayloadAction<ILike>) => {
             state.isLoading = false
             state.error = ''
-            state.like = action.payload.result 
+            state.like = action.payload.result
+            localStorage.setItem('like', state.like)
         },
         [fetchLike.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
@@ -90,6 +91,33 @@ const postSlice = createSlice({
             state.posts = state.posts.filter(post => post._id !== action.payload._id);
         },
         [fetchDeletePost.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.error = action.payload
+        },
+        ///search post
+        [fetchSearchPost.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchSearchPost.fulfilled.type]: (state, action: PayloadAction<IData>) => {
+            state.isLoading = false
+            state.error = ''
+            state.posts = action.payload.posts;
+        },
+        [fetchSearchPost.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.error = action.payload
+        },
+        ///user posts
+        [fetchUserPost.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchUserPost.fulfilled.type]: (state, action: PayloadAction<IData>) => {
+            state.isLoading = false;
+            state.error = ''
+            state.posts = action.payload.posts;
+            state.postsLength = action.payload.postsLength;
+        },
+        [fetchUserPost.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },

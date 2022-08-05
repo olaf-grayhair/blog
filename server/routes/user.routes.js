@@ -15,6 +15,6 @@ router.post('/auth',authMiddleware, UserController.authentication)
 router.get('/all', UserController.getUsers)
 // router.get('/all', roleMiddleware(['ADMIN']), UserController.getUsers)
 
-router.post('/upload', authMiddleware, upload.single('image'), UserController.avatar);
+router.put('/update', authMiddleware,  UserController.update);
 
 module.exports = router

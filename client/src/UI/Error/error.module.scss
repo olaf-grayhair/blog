@@ -1,0 +1,16 @@
+.error, .bool{
+    position: relative;
+    padding: 10px;
+    background-color: rgba($color: #ff0a0a, $alpha: .4);
+    margin-bottom: 20px;
+    transition: all ease .4s;
+    display: none;
+    .icon{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+}
+.bool{
+    display: block;
+}

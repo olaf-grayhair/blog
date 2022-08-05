@@ -49,7 +49,6 @@ const CreatePost: React.FC = () => {
                         accept='image/*'
                         placeholder='write your title here...'
                         onChange={sendImg}
-                        // onClick={sendImg}
                     />
                 </label>
             </div>

@@ -1,11 +1,13 @@
 .userinfo{
-    .user__block{
-        margin-top: 100px;
+    max-width: 1000px;
+    margin: 100px auto 0 auto;
+    .user__block, .user__setting{
         background-color: #282D3C;
         position: relative;
         min-height: 300px;
         border-radius: 10px;
         .avatar{
+            border-radius: 50%;
             width: 170px;
             height: 170px;
             position: absolute;
@@ -55,4 +57,40 @@
         }
     }
 
+
+    .user__setting{
+        padding: 20px;
+        width: 700px;
+        margin: 0 auto;
+        .title{
+            font-size: 26px;
+            margin-bottom: 30px;
+        }
+        .user__input{
+            max-width: 500px;
+            .input{
+                color: black;
+            }
+        }
+        .label{
+            margin-bottom: 20px;  
+            display: inline-block; 
+        }
+        .file__upload{
+            display: flex;
+            align-items: center;
+
+            .upload{
+                width: 70px;
+                height: 70px;
+                margin-right: 20px;
+                border-radius: 50%;
+            }
+            margin-bottom: 30px;
+        }
+        .btn__block{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 }

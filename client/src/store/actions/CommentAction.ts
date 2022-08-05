@@ -2,45 +2,29 @@ import { IComment, IComments, ICreate, IData, IOnePost, IPost } from "../../type
 import { instance } from "../../components/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetcPostComments = createAsyncThunk(
-    'comments/getPostComments',
-    async (id: string) => {
-        try {
-            const response = await instance.get<IComments>(`api/post/comments/${id}`)
-            // console.log(response.data);
-            return response.data
-        } catch (e) {
-            console.log('error in fetch comments')
-        }
-    }
-)
 
 export const fetcCommentCreate = createAsyncThunk(
     'comments/createComment',
-    async (body: ICreate) => {
-        // console.log(body.id);
-        // console.log(body.text);
-        
+    async (body: ICreate, thunkAPI) => {
         try {
-            const response = await instance.post<ICreate>(`api/post/${body.id}/comment`, {text: body.text})
-            // console.log(response.data);
+            const response = await instance.post<ICreate>(`post/${body.id}/comment`, {text: body.text})
             return response.data
-        } catch (e) {
-            console.log('error in comment create')
+        } catch (err: any) {
+            console.log(err.response.data);
+            
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchCommentDelete = createAsyncThunk(
     'comments/deletComment',
-    async (id: string) => {
-
+    async (id: string, thunkAPI) => {
         try {
-            const response = await instance.delete<string>(`api/comment/delete/${id}`)
-            // console.log(response.data);
+            const response = await instance.delete<string>(`comment/delete/${id}`)
             return response.data
-        } catch (e) {
-            console.log('error in comment delete')
+        } catch (err: any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
