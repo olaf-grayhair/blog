@@ -9,27 +9,27 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchPosts = createAsyncThunk(
     'posts/getAll',
-     async (sortItem?: string) => {
-        
+    async (sortItem?: string) => {
+
         let query = ''
-        if(sortItem === 'date') {
+        if (sortItem === 'date') {
             query = '?sort=date'
         }
-        if(sortItem === 'comments') {
+        if (sortItem === 'comments') {
             query = '?sort=comments'
         }
-        if(sortItem === 'likes') {
+        if (sortItem === 'likes') {
             query = '?sort=likes'
         }
-        if(sortItem === '') {
+        if (sortItem === '') {
             query = ''
         }
-        
-        try{
+
+        try {
             const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts${query}`)
-            
+
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('upload error')
         }
     }
@@ -41,7 +41,7 @@ export const fetchOnePost = (id: string) => {
             dispatch(postPending())
             const response = await axios.get<IOnePost>(`http://localhost:5000/api/post/${id}`)
             console.log(response.data);
-            
+
             dispatch(getPost(response.data))
         } catch (e) {
             console.log('get post error')
@@ -52,14 +52,14 @@ export const fetchOnePost = (id: string) => {
 
 export const uploaFile = createAsyncThunk(
     'posts/uploads',
-     async (body: any) => {
-        try{
+    async (body: any) => {
+        try {
             const formData = new FormData()
             formData.append('image', body)
 
             const response = await instance.post<any>(`post/upload`, formData)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('upload error')
         }
     }
@@ -67,13 +67,13 @@ export const uploaFile = createAsyncThunk(
 
 export const createPost = createAsyncThunk(
     'posts/create',
-     async (body: any) => {
+    async (body: any) => {
         const formData = new FormData()
         formData.append('image', body)
-        try{
+        try {
             const response = await instance.post<any>(`post/add`, body)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('upload error')
         }
     }
@@ -81,12 +81,12 @@ export const createPost = createAsyncThunk(
 
 export const fetchLike = createAsyncThunk(
     'post/like',
-     async (id: string) => {
-        
-        try{
+    async (id: string) => {
+
+        try {
             const response = await instance.post<object>(`post/${id}/likes`)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('upload error')
         }
     }
@@ -94,12 +94,12 @@ export const fetchLike = createAsyncThunk(
 
 export const fetchDeletePost = createAsyncThunk(
     'post/delete',
-     async (id: string) => {
+    async (id: string) => {
 
-        try{
+        try {
             const response = await instance.delete<object>(`post/delete/${id}`)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('upload error')
         }
     }
@@ -107,37 +107,47 @@ export const fetchDeletePost = createAsyncThunk(
 
 export const fetchSearchPost = createAsyncThunk(
     'post/search',
-     async (query: string) => {
-        console.log(query, 'like');
-        try{
-            const response = await instance.get<object>(`post/search?title=${query}`)
+    async (query: {title: string, search: string}) => {
+        const searchType = Object.values(query)[0]
+        console.log(searchType, 'like', query);
+        let result
+
+        if (searchType === 'title') {
+            result = `search?title=${query.search}`
+        } else {
+            result = `search?tags=${query.search}`
+        }
+        console.log(result);
+        
+        try {
+            const response = await instance.get<object>(`post/${result}`)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('search error')
         }
     }
 )
 
-export const fetchSearchTags = createAsyncThunk(
-    'post/search_tags',
-     async (query: string) => {
-        console.log(query, 'like');
-        try{
-            const response = await instance.get<object>(`post/search?title=${query}`)
-            return response.data
-        }catch(e) {
-            console.log('search error')
-        }
-    }
-)
+// export const fetchSearchTags = createAsyncThunk(
+//     'post/search_tags',
+//      async (query: string) => {
+//         console.log(query, 'like');
+//         try{
+//             const response = await instance.get<object>(`post/search_tags?tags=${query}`)
+//             return response.data
+//         }catch(e) {
+//             console.log('search error')
+//         }
+//     }
+// )
 
 export const fetchUserPost = createAsyncThunk(
     'post/user_posts',
-     async () => {
-        try{
+    async () => {
+        try {
             const response = await instance.get<object>(`post/user_posts`)
             return response.data
-        }catch(e) {
+        } catch (e) {
             console.log('search error')
         }
     }
@@ -146,7 +156,7 @@ export const fetchUserPost = createAsyncThunk(
 
 // export const uploadAvatar = (file: any) => {
 //     return async (dispatch: AppDispatch) => {
-//         try{           
+//         try{
 //             const formData = new FormData()
 //             formData.append('image', file)
 

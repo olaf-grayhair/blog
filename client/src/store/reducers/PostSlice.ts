@@ -7,7 +7,7 @@ interface PostState extends IData {
     // postsLength: number ;
     isLoading: boolean;
     error: string;
-    post: object | IPost[];
+    post: IPost[];
     imageUrl: string;
     like: string;
 }
@@ -101,7 +101,7 @@ const postSlice = createSlice({
         [fetchSearchPost.fulfilled.type]: (state, action: PayloadAction<IData>) => {
             state.isLoading = false
             state.error = ''
-            state.posts = action.payload.posts;
+            state.post = action.payload.posts;
         },
         [fetchSearchPost.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false

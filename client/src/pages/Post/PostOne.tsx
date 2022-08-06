@@ -17,7 +17,7 @@ export interface IP {
     _id: string;
     title: string;
     text: string;
-    tags: string;
+    tags: any[];
     imageUrl: string;
     timestamps: string;
     userId: string;
@@ -31,10 +31,10 @@ export interface IP {
 const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, isAuth, userId, user }) => {
     const [bool, setBool] = useState<boolean>(false)
     const { isLoading, error, post } = useAppSelector(state => state.post)
-
-    console.log(post.comments);
+    const posts = useAppSelector(state => state.posts.posts)
+    const result = Array.from(new Set(posts.map(el => el.tags).flat()))
+    console.log(tags, 'tags');
     
-    // const { comments } = useAppSelector(state => state.comment)
     const { like } = useAppSelector(state => state.posts)
 
     const commnetsArray = post.comments.map(el => <Comment key={el._id} {...el} />)
@@ -81,13 +81,15 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
                     <div className={style.text__block}>
                         <UserItem
                             timestamps={timestamps}
-                            {...post.user}
+                            surName={user.surName}
+                            avatarUrl={user.avatarUrl}
+                            firstName={user.firstName}
                         />
 
                         <div className={style.content__block}>
                             <h2>{title}</h2>
                             <div className={style.tags__block}>
-                                <span className={style.tags}>#{tags}</span>
+                                {tags.map(tag => <span className={style.tags}>#{tag}</span>)}
                             </div>
                             <p>{text}</p>
                             <div className={style.article__icons}>

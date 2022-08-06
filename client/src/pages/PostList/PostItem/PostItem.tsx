@@ -8,17 +8,6 @@ import UserItem from '../../../components/UserItem/UserItem';
 import { endOfWords } from '../../../components/endOfWords';
 import Button from '../../../UI/Button/Button';
 
-interface PostItemProps{
-    title: string;
-    tags: string;
-    text: string;
-    imageUrl: string;
-    timestamps: string;
-    comments: any[];
-    _id: string;
-    user: object;
-}
-
 const PostItem: React.FC<IPost> = ({ 
     title, 
     tags, 
@@ -30,7 +19,7 @@ const PostItem: React.FC<IPost> = ({
     user,
     likes
  }) => {
-
+    
     
 
     return (
@@ -41,7 +30,10 @@ const PostItem: React.FC<IPost> = ({
 
             <UserItem 
             timestamps={timestamps}
-            {...user} 
+            // {...user} 
+            surName={user.surName}
+            avatarUrl={user.avatarUrl}
+            firstName={user.firstName}
             />
             <div className={style.content__block}>
                 <Link 
@@ -51,7 +43,7 @@ const PostItem: React.FC<IPost> = ({
                     <h2>{title}</h2>
                 </Link>
                 <div className={style.tags__block}>
-                    <span className={style.tags}>#{tags}</span>
+                    {tags.map(tag => <span className={style.tags}># {tag}</span>)}
                 </div>
                 <div className={style.bottom__block}>
                     <div className={style.details__block}>

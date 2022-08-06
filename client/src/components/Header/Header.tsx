@@ -1,17 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from './header.module.scss';
 import logo from '../../assets/ts.png';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import avatar from '../../assets/user.png'
 import UserMenu from '../UserMenu/UserMenu';
-import { showMenu } from '../../store/reducers/UserSlice';
+import { setSearchItem, showMenu } from '../../store/reducers/UserSlice';
 import Button from '../../UI/Button/Button';
 import UserInput from '../../UI/input/UserInput';
 import { fetchSearchPost } from '../../store/actions/PostAction';
 import { BsSearch } from 'react-icons/bs';
 
 const Header: FC = () => {
+    const navigate = useNavigate();
+
     const dispatch = useAppDispatch()
     const { isAuth, menu } = useAppSelector(state => state.users)
     const { avatarUrl } = useAppSelector(state => state.users.user)
@@ -28,11 +30,13 @@ const Header: FC = () => {
 
     const onSearch = () => {
         if(search !== '') {
-            dispatch(fetchSearchPost(search))
+            dispatch(setSearchItem(search))
+            navigate('../search', { replace: true })
+            console.log('navigate');
             setSearch('')
         }
     }
-    console.log(search, 'search');
+    // console.log(search, 'search');
 
     return (
         <div className={style.header}>

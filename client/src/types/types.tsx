@@ -8,10 +8,10 @@ export interface IPost {
     _id: string;
     title: string;
     text: string;
-    tags: string;
+    tags: any[];
     imageUrl: string;
     timestamps: string;
-    user: object;
+    user: IUserInfo;
     likes: ILike[]; 
     comments: IComment[];
 }

@@ -11,6 +11,7 @@ interface UserState {
     popupPost: boolean,
     message: string,
     token: string;
+    search: string;
 }
 
 const initialState: UserState = {
@@ -22,6 +23,7 @@ const initialState: UserState = {
     popupPost: false,
     message: '',
     token: '',
+    search: '',
 }
 
 const userSlice = createSlice({
@@ -43,6 +45,9 @@ const userSlice = createSlice({
         // },
         showMenu(state, action: PayloadAction<boolean>) {
             state.menu = action.payload
+        },
+        setSearchItem(state, action: PayloadAction<string>) {
+            state.search = action.payload
         },
         showPopup(state, action: PayloadAction<boolean>) {
             state.popup = action.payload
@@ -121,4 +126,4 @@ const userSlice = createSlice({
 export default userSlice.reducer
 export const { 
     // userPending, userLogin, userError, 
-    showMenu, showPopup, showPopupPost, userLogout } = userSlice.actions
+    showMenu, showPopup, showPopupPost, userLogout, setSearchItem } = userSlice.actions

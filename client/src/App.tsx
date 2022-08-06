@@ -13,6 +13,8 @@ import UserSetting from './pages/User/UserSetting';
 import { showMenu } from './store/reducers/UserSlice';
 import CreatePost from './pages/CreatePost/CreatePost';
 import MyPosts from './pages/PostList/MyPosts';
+import PostSearch from './pages/PostList/PostsSearch';
+import PostTags from './pages/PostList/PostsTags';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/registration" element={<Registration />} />
               <Route path="/post/:id" element={<Post />} />
+              <Route path="/:id" element={<PostSearch />} />
+              <Route path="/search" element={<PostSearch />} />
               <Route path="/" element={<Navigate replace to="/login" />} />
 
               <Route
@@ -52,6 +56,8 @@ function App() {
               <Route path="/" element={<Home />} />
               {/* <Route path="/login" element={<Navigate replace to="/" />} /> */}
               <Route path="/post/:id" element={<Post />} />
+              <Route path="/:id" element={<PostTags />} />
+              <Route path="/search" element={<PostSearch />} />
               <Route path="/info" element={<UserInfo />} />
               <Route path="/setting" element={<UserSetting />} />
               <Route path="/new" element={<CreatePost />} />

@@ -12,10 +12,10 @@ const deleteMiddleware = require('../middleware/deleteMiddleware');
 
 
 
-router.get('/tags', PostController.seacrchByTags);
+// router.get('/search_tags', PostController.seacrchByTags);
 router.get('/user_posts',authMiddleware, PostController.userPost);
 router.get('/all_posts', PostController.getPosts);
-router.get('/search', PostController.seacrchPost);
+router.get('/search', PostController.seacrchByTags);
 router.get('/:id', PostController.findOne);
 
 router.post('/:id/likes',authMiddleware, PostController.likesAndDislikes);

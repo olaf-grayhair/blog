@@ -8,7 +8,10 @@ const PostSchema = new mongoose.Schema({
   //     type: 'array',
   //     items: { type: 'string', uniqueItems: true }
   //  },
-    tags: [{type: String, unique: false }],
+  tags: {
+    type: Array,
+    default: [],
+  },
   //   tags:{
   //     type:[String],
   //     required: true
