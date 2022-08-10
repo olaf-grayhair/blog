@@ -65,7 +65,14 @@
                         margin-top: 30px;
                         display: flex;
                         align-items: center;
-                        .icon, .icon__active{
+                        .like{
+                            margin-right: 20px;
+                        }
+                        .like, .bookmark{
+                            display: flex;
+                            align-items: center;
+                        }
+                        .icon, .icon__active, .icon__black{
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -75,6 +82,9 @@
                         .icon__active{
                             fill: #f70c0c;
                         }
+                        .icon__black{
+                            fill: rgb(22, 20, 20)
+                        }
                     }
                 }
 
@@ -82,8 +92,14 @@
                 .tags__block{
                     margin-bottom: 20px;
                     .tags{
-                        margin-right: 15px;
-                        font-size: 18px;
+                        padding: 10px 15px;
+                        margin: 5px 0;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: all ease .4s;
+                        &:hover{
+                            background-color: black;
+                        }
                     }
                 }
             }

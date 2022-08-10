@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ICreatePost, IData, ILike, IPost } from "../../types/types";
-import { createPost, fetchDeletePost, fetchLike, fetchPosts, fetchSearchPost, fetchUserPost, uploaFile } from "../actions/PostAction";
+import { ICreatePost, IData, ILike, IOnePost, IPost } from "../../types/types";
+import { createPost, fetchDeletePost, fetchLike, fetchPosts, fetchSavedArticle, fetchSearchPost, fetchUserPost, uploaFile } from "../actions/PostAction";
 
 interface PostState extends IData {
     // posts: IPost[];
@@ -58,10 +58,10 @@ const postSlice = createSlice({
         [createPost.pending.type]: (state) => {
             state.isLoading = true
         },
-        [createPost.fulfilled.type]: (state, action: PayloadAction<any>) => {
+        [createPost.fulfilled.type]: (state, action: PayloadAction<IOnePost>) => {
             state.isLoading = false
             state.error = ''
-            state.posts.push(action.payload);
+            state.posts.push(action.payload.post);
         },
         [createPost.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
@@ -118,6 +118,20 @@ const postSlice = createSlice({
             state.postsLength = action.payload.postsLength;
         },
         [fetchUserPost.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.error = action.payload
+        },
+        ///reading list
+        [fetchSavedArticle.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [fetchSavedArticle.fulfilled.type]: (state, action: PayloadAction<IData>) => {
+            state.isLoading = false;
+            state.error = ''
+            state.posts = action.payload.posts;
+            state.postsLength = action.payload.postsLength;
+        },
+        [fetchSavedArticle.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },

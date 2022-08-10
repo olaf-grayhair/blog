@@ -54,6 +54,8 @@ export interface IUserInfo {
     email: string;
     timestamps: string;
     roles: any[];
+    readingList: any[];
+    comments: any[];
 }
 ///create post
 export interface ICreatePost {
@@ -72,6 +74,12 @@ export interface ICreate {
 export interface ILike {
     category: string;
     result: string;
+}
+///save post
+export interface ISave {
+    category: string;
+    result: string;
+    readingList: any[];
 }
 
 

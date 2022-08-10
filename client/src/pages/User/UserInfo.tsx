@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { URL_API } from '../../components/url';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import avatar from '../../assets/user.png'
 import style from './user.module.scss';
@@ -15,7 +14,7 @@ const UserInfo: React.FC = () => {
         dispatch(showMenu(false))
       },[]);
 
-    const { avatarUrl, firstName, surName, timestamps, roles, email, posts, _id } = useAppSelector(state => state.users.user)
+    const { avatarUrl, firstName, surName, timestamps, roles, email, posts, _id, readingList, comments} = useAppSelector(state => state.users.user)
     return (
         <div className={style.userinfo}>
             <div className={style.user__block}>
@@ -30,8 +29,8 @@ const UserInfo: React.FC = () => {
             </div>
             <div className={style.user__content}>
                 <span className={style.item}>{posts.length} posts published</span>
-                <span className={style.item}>{posts.length} comments written</span>
-                <span className={style.item}>{posts.length} tags followed</span>
+                <span className={style.item}>{comments.length} comments written</span>
+                <span className={style.item}>{readingList.length} reading list</span>
             </div>
         </div>
     );

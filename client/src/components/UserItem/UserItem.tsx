@@ -21,7 +21,6 @@ const UserItem: React.FC<UserItemProps> = ({
     firstName, 
     surName
     }) => {
-    console.log(timestamps);
 
     useEffect(() => {
         // console.log(firstName, surName, 'userItem');

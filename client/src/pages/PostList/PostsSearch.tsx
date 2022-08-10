@@ -14,7 +14,7 @@ const PostSearch: React.FC<any> = () => {
     
     useEffect(() => {
         dispatch(fetchSearchPost({ title: 'title', search }))
-      },[]);
+      },[search]);
 
       
       if (!post.length) {

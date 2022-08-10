@@ -4,18 +4,7 @@ const { default: mongoose } = require("mongoose")
 const PostSchema = new mongoose.Schema({
     title: {type: String, required: true},
     text: {type: String, required: true},
-  //   tags: { 
-  //     type: 'array',
-  //     items: { type: 'string', uniqueItems: true }
-  //  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  //   tags:{
-  //     type:[String],
-  //     required: true
-  //  },
+    tags: {type: Array, default: []},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     imageUrl: {type: String, default: ''},
     timestamps: {type: Date, default: Date.now()},

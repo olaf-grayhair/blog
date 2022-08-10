@@ -12,7 +12,12 @@ const UserSchema = new mongoose.Schema({
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
-      }]
+      }],
+    readingList: {type: Array, default: []},
+    comments: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }],
 })
 
 module.exports = mongoose.model('User', UserSchema)

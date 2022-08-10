@@ -1,6 +1,7 @@
-import { IComment, IComments, ICreate, IData, IOnePost, IPost } from "../../types/types";
+import { IComment, IComments, ICreate, IData, IOnePost, IPost, ISave } from "../../types/types";
 import { instance } from "../../components/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 
 export const fetcCommentCreate = createAsyncThunk(
@@ -11,7 +12,6 @@ export const fetcCommentCreate = createAsyncThunk(
             return response.data
         } catch (err: any) {
             console.log(err.response.data);
-            
             return thunkAPI.rejectWithValue(err.response.data);
         }
     }
@@ -28,3 +28,31 @@ export const fetchCommentDelete = createAsyncThunk(
         }
     }
 )
+
+export const fetchOnePost = createAsyncThunk(
+    'posts/fetchOnePost',
+    async (id: string) => {
+        try {
+            const response = await axios.get<IOnePost>(`http://localhost:5000/api/post/${id}`)
+            console.log(response.data);
+            return response.data
+        } catch (e) {
+            console.log('upload error')
+        }
+    }
+)
+
+export const saveArticle = createAsyncThunk(
+    'posts/saveArticle',
+    async (id: string) => {
+        try {
+            const response = await instance.post<ISave>(`post/${id}/readingList`)
+            console.log(response.data);
+            return response.data
+        } catch (e) {
+            console.log('upload error')
+        }
+    }
+)
+
+

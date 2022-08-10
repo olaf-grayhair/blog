@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import { useAppDispatch } from '../../hooks/redux';
-import { fetcCommentCreate } from '../../store/actions/CommentAction';
+import { fetcCommentCreate } from '../../store/actions/Comment&&OnePostAction';
 import Button from '../../UI/Button/Button';
 import style from './comment.module.scss';
 

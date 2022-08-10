@@ -14,11 +14,13 @@ const deleteMiddleware = require('../middleware/deleteMiddleware');
 
 // router.get('/search_tags', PostController.seacrchByTags);
 router.get('/user_posts',authMiddleware, PostController.userPost);
+router.get('/user_saved',authMiddleware, PostController.userSavedPost);
 router.get('/all_posts', PostController.getPosts);
 router.get('/search', PostController.seacrchByTags);
 router.get('/:id', PostController.findOne);
 
 router.post('/:id/likes',authMiddleware, PostController.likesAndDislikes);
+router.post('/:id/readingList',authMiddleware, PostController.savePost);
 router.post('/:id/comment',TextValidation, mistakes, authMiddleware, CommentController.create);
 router.post('/add', authMiddleware, upload.single('image'),PostController.create);
 router.post('/upload', authMiddleware, upload.single('image'),PostController.upload);

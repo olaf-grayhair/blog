@@ -192,6 +192,24 @@ class PostController {
         }
     }
 
+    async userSavedPost(req, res) {
+        try {
+            const user = await User.findOne({_id:
+                req.user.id})
+
+            const posts = await Post.find({ _id:user. readingList }).populate('user', 'firstName avatarUrl surName').populate({ path: 'comments', populate: { path: 'user', "select": 'firstName avatarUrl surName' } }).exec();
+
+            if (!posts) {
+                return res.status(404).json({ message: 'Your reading list is clear' })
+            }
+            const postsLength = posts.length
+
+            return res.json({ posts, postsLength })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async likesAndDislikes(req, res) {
         try {
             let userId = req.user.id
@@ -214,6 +232,36 @@ class PostController {
                 return res.status(200).send({ category: 'like', result: 'remove' })
             }
 
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async savePost(req, res) {
+        try {
+            let userId = req.user.id
+            let postId = req.params.id
+            const postList = await User.find({_id: userId, readingList: postId})
+
+            // console.log(postList, 'postList');
+
+            if(postList.length !== 0) {
+                await User.findByIdAndUpdate({_id: userId}, {
+                    $pull: { "readingList": postId },
+                })
+
+                const user =  await User.findById({_id: userId})
+                console.log(user.readingList, 'if');
+                return res.status(200).send({ category: 'readingList', result: 'remove', readingList: user.readingList})
+            }else{
+                await User.findByIdAndUpdate({_id: userId}, {
+                    $push: { "readingList": postId },
+                })
+                
+                const user =  await User.findById({_id: userId})
+                console.log(user.readingList, 'else');
+                return res.status(200).send({ category: 'readingList', result: 'save', readingList: user.readingList })
+            }
         } catch (error) {
             console.log(error);
         }

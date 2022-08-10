@@ -18,6 +18,9 @@ class CommentController {
             comment.user = await User.findById(comment.user, "firstName surName avatarUrl")
 
             await Post.findOneAndUpdate({_id:req.params.id}, { $push: { "comments": postId._id } })
+
+            await User.findOneAndUpdate({_id:req.user.id}, { $push: { "comments": postId._id } })
+
             return res.json(comment)
         } catch (error) {
             console.log(error);
@@ -33,6 +36,8 @@ class CommentController {
                 await Comment.findOneAndDelete({_id: comment})
 
                 await Post.findOneAndUpdate({_id: comment.post}, { $pull: { "comments": comment._id } })
+
+                await User.findOneAndUpdate({_id: req.user.id}, { $pull: { "comments": comment._id } })
 
                 // return res.json(comment)
             }else {

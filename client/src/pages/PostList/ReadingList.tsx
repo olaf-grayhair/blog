@@ -2,24 +2,22 @@ import React, { FC, useEffect } from 'react';
 import PostItem from './PostItem/PostItem';
 import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchSearchPost } from '../../store/actions/PostAction';
+import { fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
-import { useParams } from 'react-router-dom';
+import { fetchSavedArticle } from '../../store/actions/PostAction';
 
 
-const PostTags: React.FC<any> = () => {
-    const { id } = useParams() as { id: string }
-    const {post, isLoading, error, postsLength} = useAppSelector(state => state.posts)
+const MyPosts: React.FC<any> = () => {
+    
+    const {posts, isLoading, error, postsLength} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
-    console.log(id);
-    
     useEffect(() => {
-        dispatch(fetchSearchPost({ title: 'tags', search: id }))
+        dispatch(fetchSavedArticle())
         console.log('effect');
-      },[id]);
+      },[]);
 
-      if (!post.length) {
+      if (!posts.length) {
         return (
             <div>
                 Постов не существует.
@@ -27,7 +25,7 @@ const PostTags: React.FC<any> = () => {
         )
     }
 
-    const postsArray = post.map(el => <PostItem key={el._id} {...el}/>)
+    const postsArray = posts.map((post, id) => <PostItem key={post._id} {...post}/>)
 
     return (
         <div className={style.postlist}>
@@ -36,4 +34,4 @@ const PostTags: React.FC<any> = () => {
     );
 }
 
-export default PostTags;
+export default MyPosts;
