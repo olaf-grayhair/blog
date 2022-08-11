@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import style from './post.module.scss';
 import UserItem from '../../components/UserItem/UserItem';
 import Comment from '../../components/Comment/Comment';
-import { IComments, ILike, IPost, IUser } from '../../types/types';
+import { ILike } from '../../types/types';
 import Loader from '../../components/Loader/Loader';
 import CreateComment from '../../components/Comment/CreateComment';
 import { AiFillHeart } from 'react-icons/ai';
@@ -34,14 +34,9 @@ export interface IP {
 
 const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, isAuth, userId, user }) => {
     const navigate = useNavigate();
-
-    const [bool, setBool] = useState<boolean>(false)
     const { isLoading, error, post, save } = useAppSelector(state => state.post)
     const posts = useAppSelector(state => state.posts.posts)
     const result = Array.from(new Set(posts.map(el => el.tags).flat()))
-    console.log(tags, 'tags');
-
-    const { like } = useAppSelector(state => state.posts)
 
     const commnetsArray = post.comments.map(el => <Comment key={el._id} {...el} />)
 
@@ -76,13 +71,6 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
 
         <div className={style.post}>
             <div className={style.post__item}>
-                <div className={style.left__block}>
-                    <div className={style.details__block}>
-                        <span>like</span>
-                        <button>save</button>
-                    </div>
-                </div>
-
                 <div className={style.centre__block}>
                     {userId === user._id &&
                         <div className={style.owner__icons}>
@@ -138,10 +126,6 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
                         {isAuth && <CreateComment _id={_id} />}
                         {commnetsArray}
                     </div>
-                </div>
-
-                <div className={style.right__block}>
-                    user info
                 </div>
             </div>
         </div>

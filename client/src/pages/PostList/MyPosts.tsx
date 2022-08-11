@@ -6,9 +6,9 @@ import { fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
 
 
-const MyPosts: React.FC<any> = () => {
+const MyPosts: React.FC = () => {
     
-    const {posts, isLoading, error, postsLength} = useAppSelector(state => state.posts)
+    const {posts, isLoading, } = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
     useEffect(() => {

@@ -12,11 +12,8 @@ const PostTags: React.FC<any> = () => {
     const {post, isLoading, error, postsLength} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
-    console.log(id);
-    
     useEffect(() => {
         dispatch(fetchSearchPost({ title: 'tags', search: id }))
-        console.log('effect');
       },[id]);
 
       if (!post.length) {

@@ -11,7 +11,6 @@ interface IPopup {
 }
 
 const Popup: React.FC<IPopup> = ({ title, popup, close, action}) => {
-    // const popup = useAppSelector(state => state.users.popup)
 
     return (
         <div className={popup ? style.popupActive : style.popup}>

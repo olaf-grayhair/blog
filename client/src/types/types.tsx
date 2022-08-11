@@ -36,7 +36,7 @@ export interface IUser {
     avatarUrl: string;
     firstName: string;
     surName: string;
-    _id: string;
+    _id?: string;
 }
 ///userLogin
 export interface IUserLogin {

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import style from './header.module.scss';
 import logo from '../../assets/ts.png';
@@ -8,7 +8,6 @@ import UserMenu from '../UserMenu/UserMenu';
 import { setSearchItem, showMenu } from '../../store/reducers/UserSlice';
 import Button from '../../UI/Button/Button';
 import UserInput from '../../UI/input/UserInput';
-import { fetchSearchPost } from '../../store/actions/PostAction';
 import { BsSearch } from 'react-icons/bs';
 
 const Header: FC = () => {
@@ -32,11 +31,9 @@ const Header: FC = () => {
         if(search !== '') {
             dispatch(setSearchItem(search))
             navigate('../search', { replace: true })
-            console.log('navigate');
             setSearch('')
         }
     }
-    // console.log(search, 'search');
 
     return (
         <div className={style.header}>

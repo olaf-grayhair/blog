@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IUserInfo, IUserLogin } from "../../types/types";
-import { fetchUserAuth, fetchUserLogin, fetchUserRegistration, fetchUserSetting } from "../actions/UserAction";
+import { fetchUserAuth, fetchUserLogin, fetchUserRegistration, fetchUserSetting, uploadAvatar } from "../actions/UserAction";
 
 interface UserState {
     user: IUserInfo;
@@ -12,6 +12,7 @@ interface UserState {
     message: string,
     token: string;
     search: string;
+    avatar: string;
 }
 
 const initialState: UserState = {
@@ -24,6 +25,7 @@ const initialState: UserState = {
     message: '',
     token: '',
     search: '',
+    avatar: '',
 }
 
 const userSlice = createSlice({
@@ -117,6 +119,19 @@ const userSlice = createSlice({
             state.user = action.payload.user
         },
         [fetchUserSetting.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.message = action.payload
+        },
+        ///upload avatar
+        [uploadAvatar.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [uploadAvatar.fulfilled.type]: (state, action: PayloadAction<string>) => {
+            state.isLoading = false
+            state.message = ''
+            state.avatar = action.payload
+        },
+        [uploadAvatar.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.message = action.payload
         },

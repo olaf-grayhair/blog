@@ -10,8 +10,6 @@ const PostSearch: React.FC<any> = () => {
     const search = useAppSelector(state => state.users.search)
     const dispatch = useAppDispatch()
     
-    console.log(search, 'search');
-    
     useEffect(() => {
         dispatch(fetchSearchPost({ title: 'title', search }))
       },[search]);

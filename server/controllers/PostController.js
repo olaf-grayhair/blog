@@ -8,7 +8,6 @@ const fs = require('fs')
 class PostController {
     async create(req, res) {
         try {
-            console.log(req.body.tags)
             const file = {
                 ...req.body,
                 tags: req.body.tags.split(','),
@@ -22,16 +21,16 @@ class PostController {
                 return res.status(404).json({ message: 'Post with this title already exist!' })
             }
             const post = await Post.create(file)
-            console.log(post);
-
-            const postId = await Post.findOne({ title: req.body.title })
-
+            
+            const postId = await Post.findOne({ title: req.body.title }).populate('user', 'firstName avatarUrl surName').exec();
+            console.log(post, '|||', postId);
+            
             await User.findOneAndUpdate({ _id: req.user.id },
                 {
                     $push: { "posts": postId._id, }
                 })
 
-            return res.json({ post })
+            return res.json({ post: postId })
 
         } catch (error) {
             console.log(error);
@@ -68,17 +67,21 @@ class PostController {
 
     async update(req, res) {
         try {
-            // const findPost = await Post.findOne({_id:req.params.id})
-            ///NEED URL FROM req.file !!!!
-            const file = req.body
-            console.log(req, 'UPDATAE');
+            const file = {
+                ...req.body,
+                tags: req.body.tags.split(','),
+                user: req.user.id,
+            }
+
             const post = await Post.findOneAndUpdate({ _id: req.params.id }, file)
 
             if (!post) {
                 return res.status(404).json({ message: 'article not found' })
             }
 
-            res.json({ post })
+            const updatePost = await Post.findById({ _id: req.params.id })
+
+            res.json({ post: updatePost })
         } catch (error) {
             console.log(error);
         }
@@ -129,6 +132,25 @@ class PostController {
     async upload(req, res) {
         try {
             const url = `${process.env.SERVER_URL}uploads/${req.file.filename}`
+            
+            console.log(req.body.id, 'post');
+            if(req.body.id === '') {
+                res.json(url)
+            }
+
+            const post = await Post.findById({_id: req.body.id })
+
+            if(post.imageUrl !== '') {
+                let img = post.imageUrl.split('http://localhost:5000/')[1]
+                try {
+                    fs.unlinkSync(img)
+                    console.log("Successfully deleted the file.")
+                  } catch(err) {
+                      console.log(err);
+                    await Post.findOneAndUpdate({_id: req.body.id}, {imageUrl: ""})
+                    throw err
+                  }
+            }
             res.json(url)
         } catch (error) {
             res.status(500).json({

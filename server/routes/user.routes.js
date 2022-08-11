@@ -9,10 +9,12 @@ const { upload } = require('../utils/multe');
 
 
 router.post('/registration', RegisterValidation, mistakes, UserController.registration);
+router.get('/all', UserController.getUsers)
 
 router.post('/login', UserController.login)
 router.post('/auth',authMiddleware, UserController.authentication)
-router.get('/all', UserController.getUsers)
+router.post('/upload_avatar', authMiddleware, upload.single('image'),UserController.uploadAvatar);
+
 // router.get('/all', roleMiddleware(['ADMIN']), UserController.getUsers)
 
 router.put('/update', authMiddleware,  UserController.update);

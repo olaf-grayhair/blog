@@ -1,8 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PostItem from './PostItem/PostItem';
 import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
 import { fetchSavedArticle } from '../../store/actions/PostAction';
 
@@ -14,7 +13,6 @@ const MyPosts: React.FC<any> = () => {
     
     useEffect(() => {
         dispatch(fetchSavedArticle())
-        console.log('effect');
       },[]);
 
       if (!posts.length) {

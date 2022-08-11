@@ -5,12 +5,11 @@ import { userLogout } from '../../store/reducers/UserSlice';
 import style from './usermenu.module.scss';
 
 const UserMenu: React.FC = () => {
-    const {user, menu} = useAppSelector(state => state.users)
+    const {user} = useAppSelector(state => state.users)
     const dispatch = useAppDispatch()
     const logout = () => {
         dispatch(userLogout())
     }
-    console.log(user.posts, 'menu');
     
     return (
         <div className={style.usermenu}>

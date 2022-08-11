@@ -5,6 +5,7 @@ const Role = require('../models/Role');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const fs = require('fs')
 
 const generateJwt = (id, email, role) => {
     return jwt.sign(
@@ -98,17 +99,8 @@ class UserController {
 
     async update(req, res) {
         try {
-            // let url = ''
-            // if(req.file === undefined) {
-            //     url = ''
-            // } else {
-            //     url = `/uploads/${req.file.originalname}`
-            // }
-            console.log(req.body, 'userchange');
+            // console.log(req.body, 'userchange');
             const file = {
-                // firstName: req.body.firstName,
-                // surName: req.body.surName,
-                // avatarUrl: url,
                 ...req.body
             }
 
@@ -120,6 +112,32 @@ class UserController {
         }
     }
     
+    async uploadAvatar(req, res) {
+        try {
+            const url = `${process.env.SERVER_URL}uploads/${req.file.filename}`
+
+            const user = await User.findById({_id: req.user.id})
+
+            if(user.avatarUrl !== '') {
+                let img = user.avatarUrl.split('http://localhost:5000/')[1]
+                console.log(img);
+                try {
+                    fs.unlinkSync(img)
+                    console.log("Successfully deleted the file.")
+                  } catch(err) {
+                    await User.findOneAndUpdate({_id: req.user.id}, {avatarUrl: ""})
+                    console.log(err);
+                    throw err
+                  }
+            }
+
+            res.json(url)
+        } catch (error) {
+            res.status(500).json({
+                message: 'Не удалось загрузить изображение',
+            });
+        }
+    }
 }
 
 module.exports = new UserController()

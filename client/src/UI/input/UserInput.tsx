@@ -22,27 +22,6 @@ const UserInput: FC<IInput> = ({ name, value, type, onChange }) => {
             />
         </div>
     );
-    // if(type === 'text') {
-    //     return (
-    //         <div className={style.input}>
-    //             <label htmlFor="name">{value}</label>
-    //             <input 
-    //                 type='text'
-    //             />
-    //         </div>
-    //     );
-    // } 
-
-    // if(type === 'file') {
-    //     return (
-    //         <div className={style.input}>
-    //             <label htmlFor="name">{value}</label>
-    //             <input 
-    //                 type='file'
-    //             />
-    //         </div>
-    //     );
-    // } 
 }
 
 export default UserInput;

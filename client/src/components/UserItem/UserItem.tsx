@@ -1,18 +1,13 @@
 import React, { FC, useEffect } from 'react';
-import { useAppSelector } from '../../hooks/redux';
 import { monthFunck } from '../months';
 import style from './useritem.module.scss';
-import { URL_API } from '../url';
 import avatar from '../../assets/user.png'
-import { IUser } from '../../types/types';
 
 interface UserItemProps {
     timestamps: string;
     avatarUrl?: string;
     firstName?: string;
     surName?: string;
-
-    // _id: string;
 }
 
 const UserItem: React.FC<UserItemProps> = ({

@@ -23,7 +23,6 @@ export const fetchPosts = createAsyncThunk(
 
         try {
             const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts${query}`)
-
             return response.data
         } catch (e) {
             console.log('upload error')
@@ -33,64 +32,76 @@ export const fetchPosts = createAsyncThunk(
 
 export const uploaFile = createAsyncThunk(
     'posts/uploads',
-    async (body: any) => {
+    async (item: {body: any, id: string}, thunkAPI) => {
         try {
             const formData = new FormData()
-            formData.append('image', body)
+            formData.append('image', item.body)
+            formData.append('id', item.id)
 
-            const response = await instance.post<any>(`post/upload`, formData)
+            const response = await instance.post<string>(`post/upload`, formData)
             return response.data
-        } catch (e) {
-            console.log('upload error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const createPost = createAsyncThunk(
     'posts/create',
-    async (body: any) => {
-        const formData = new FormData()
-        formData.append('image', body)
+    async (body: any, thunkAPI) => {
         try {
-            const response = await instance.post<any>(`post/add`, body)
+            const response = await instance.post<IData>(`post/add`, body)
             return response.data
-        } catch (e) {
-            console.log('upload error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const updatePost = createAsyncThunk(
+    'posts/update',
+    async (item: {body: any, id: string}, thunkAPI) => {
+        console.log(item);
+        
+        try {
+            const response = await instance.put<IData>(`post/${item.id}`, item.body)
+            return response.data
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchLike = createAsyncThunk(
     'post/like',
-    async (id: string) => {
+    async (id: string, thunkAPI) => {
 
         try {
-            const response = await instance.post<object>(`post/${id}/likes`)
+            const response = await instance.post<IData>(`post/${id}/likes`)
             return response.data
-        } catch (e) {
-            console.log('upload error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchDeletePost = createAsyncThunk(
     'post/delete',
-    async (id: string) => {
+    async (id: string, thunkAPI) => {
 
         try {
-            const response = await instance.delete<object>(`post/delete/${id}`)
+            const response = await instance.delete<IData>(`post/delete/${id}`)
             return response.data
-        } catch (e) {
-            console.log('upload error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchSearchPost = createAsyncThunk(
     'post/search',
-    async (query: {title: string, search: string}) => {
+    async (query: {title: string, search: string}, thunkAPI) => {
         const searchType = Object.values(query)[0]
-        console.log(searchType, 'like', query);
         let result
 
         if (searchType === 'title') {
@@ -98,38 +109,36 @@ export const fetchSearchPost = createAsyncThunk(
         } else {
             result = `search?tags=${query.search}`
         }
-        console.log(result);
         
         try {
-            const response = await instance.get<object>(`post/${result}`)
+            const response = await instance.get<IData>(`post/${result}`)
             return response.data
-        } catch (e) {
-            console.log('search error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchUserPost = createAsyncThunk(
     'post/user_posts',
-    async () => {
+    async (_, thunkAPI) => {
         try {
-            const response = await instance.get<object>(`post/user_posts`)
+            const response = await instance.get<IData>(`post/user_posts`)
             return response.data
-        } catch (e) {
-            console.log('search error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )
 
 export const fetchSavedArticle = createAsyncThunk(
     'posts/saved',
-    async () => {
+    async (_, thunkAPI) => {
         try {
             const response = await instance.get<IData>(`post/user_saved`)
-            console.log(response.data);
             return response.data
-        } catch (e) {
-            console.log('upload error')
+        } catch (err:any) {
+            return thunkAPI.rejectWithValue(err.response.data);
         }
     }
 )

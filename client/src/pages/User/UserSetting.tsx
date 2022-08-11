@@ -3,14 +3,13 @@ import { useInput } from '../../hooks/input';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { showMenu } from '../../store/reducers/UserSlice';
 import FileInput from '../../UI/input/FileInput';
-import Input from '../../UI/input/Input';
 import UserInput from '../../UI/input/UserInput';
 import logo from '../../assets/user.png'
 import style from './user.module.scss';
 import Button from '../../UI/Button/Button';
-import { uploaFile } from '../../store/actions/PostAction';
-import { fetchUserSetting } from '../../store/actions/UserAction';
+import { fetchUserSetting, uploadAvatar } from '../../store/actions/UserAction';
 import { useNavigate } from 'react-router-dom';
+import { imageState } from '../../components/imgState';
 
 const UserSetting: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -25,13 +24,11 @@ const UserSetting: React.FC = () => {
     const name = useInput(firstName)
     const surname = useInput(surName)
     const userEmail = useInput(email)
-    const { imageUrl } = useAppSelector(state => state.posts)
-    const avatar = useAppSelector(state => state.users.user.avatarUrl)
-
+    const avatar = useAppSelector(state => state.users.avatar)
+    
     function sendImg(e: React.ChangeEvent<HTMLInputElement>) {
         let file: any = e.target.files?.[0];
-        console.log(file);
-        dispatch(uploaFile(file))
+        dispatch(uploadAvatar(file))
     }
 
     const update = () => {
@@ -39,22 +36,10 @@ const UserSetting: React.FC = () => {
             email: userEmail.value,
             firstName: name.value,
             surName: surname.value,
-            avatarUrl: imageUrl
+            avatarUrl: avatar
         }
         dispatch(fetchUserSetting(body))
         navigate('../', { replace: true })
-    }
-
-    const avatarSetting = () => {
-        if (avatar === '') {
-            return logo
-        }
-        if (imageUrl) {
-            return imageUrl
-        }
-        if (!imageUrl) {
-            return avatar
-        }
     }
 
     const close = () => {
@@ -87,7 +72,11 @@ const UserSetting: React.FC = () => {
                 </div>
                 <label className={style.label} htmlFor="">Profile image</label>
                 <div className={style.file__upload}>
-                    <img src={avatarSetting()} alt="" className={style.upload} />
+                    <img 
+                        src={imageState(avatarUrl, avatar, logo)} 
+                        alt={logo} 
+                        className={style.upload} 
+                    />
                     <FileInput name='upload avatar' onChange={sendImg} />
                 </div>
                 <div className={style.btn__block}>

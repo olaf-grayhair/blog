@@ -13,17 +13,15 @@ const Post: React.FC = () => {
     const { id } = useParams() as { id: string }
     const navigate = useNavigate();
 
-    const { isLoading, error, post } = useAppSelector(state => state.post)
-    const {popup, popupPost} = useAppSelector(state => state.users)
-    const {commentId, comments} = useAppSelector(state => state.comment)
+    const { like } = useAppSelector(state => state.posts)
+    const { post } = useAppSelector(state => state.post)
+    const {popup, popupPost, isAuth, user} = useAppSelector(state => state.users)
+    const { commentId } = useAppSelector(state => state.comment)
     const dispatch = useAppDispatch()
 
-    const { isAuth, user } = useAppSelector(state => state.users)
-    const { like } = useAppSelector(state => state.posts)
 
     useEffect(() => {
         dispatch(fetchOnePost(id))
-
     }, [like]);
 
     const closePopup = () => {
@@ -51,7 +49,6 @@ const Post: React.FC = () => {
 
     return (
         <>
-            {/* <PostOne {...post}/> */}
             {Object.keys(post).length > 1 
             ? <PostOne {...post} 
                 action={likeToogle}

@@ -34,8 +34,8 @@ const CreatePost: React.FC = () => {
 
     function sendImg(e: React.ChangeEvent<HTMLInputElement>) {
         let file: any = e.target.files?.[0]; 
-        console.log(file);
         dispatch(uploaFile(file))
+        dispatch(uploaFile({body:file, id: ''}))
         // dispatch(uploadAvatar(file))
     }
 

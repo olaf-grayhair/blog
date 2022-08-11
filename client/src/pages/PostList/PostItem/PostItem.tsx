@@ -1,6 +1,6 @@
-import React, { FC, useEffect } from 'react';
+import React from 'react';
 import { AiOutlineHeart, AiOutlineComment } from 'react-icons/ai';
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import style from './postitem.module.scss';
 import noImg from '../../../assets/no_img.jpg'
 import { IPost } from '../../../types/types';
@@ -21,9 +21,8 @@ const PostItem: React.FC<IPost> = ({
     user,
     likes
 }) => {
-    // console.log('POSTITEM', user, timestamps);
     const dispatch = useAppDispatch()
-    const readingList = useAppSelector(state => state.post.readingList)
+    const readingList = useAppSelector(state => state.post.readingList)///??? если убрать, не будет рендера!
 
     
     const savePost = () => {
@@ -32,12 +31,8 @@ const PostItem: React.FC<IPost> = ({
 
     const saveArray = JSON.parse(localStorage.getItem("saved_posts") || "") 
     const saveItem = saveArray.find((el: string) => el === _id)
+    console.log(saveArray);
     
-    // useEffect(() => {
-    //     console.log('useEffect');
-    // },[readingList]);
-
-        
     return (
         <div className={style.post__item}>
             <Link to={'/post/' + _id} className={style.link__img}>
@@ -46,7 +41,6 @@ const PostItem: React.FC<IPost> = ({
 
             <UserItem
                 timestamps={timestamps}
-                // {...user} 
                 surName={user.surName}
                 avatarUrl={user.avatarUrl}
                 firstName={user.firstName}

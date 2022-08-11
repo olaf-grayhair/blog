@@ -1,7 +1,6 @@
-import React, { FC, useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import { useInput } from '../..//hooks/valid';
-
 import { useAppDispatch } from '../../hooks/redux';
 import { fetchUserRegistration } from '../../store/actions/UserAction';
 import Button from '../../UI/Button/Button';

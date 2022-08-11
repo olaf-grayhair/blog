@@ -1,18 +1,14 @@
 const Router = require('express')
 const router = new Router()
 const {RegisterValidation, mistakes, TextValidation} = require('../validations');
-const UserController = require('../controllers/UserController');
 const authMiddleware = require('../middleware/authMiddleware');
-const roleMiddleware = require('../middleware/roleMiddleware');
 const PostController = require('../controllers/PostController');
 const {upload} = require('../utils/multe');
 
 const CommentController = require('../controllers/CommentController');
-const deleteMiddleware = require('../middleware/deleteMiddleware');
 
 
 
-// router.get('/search_tags', PostController.seacrchByTags);
 router.get('/user_posts',authMiddleware, PostController.userPost);
 router.get('/user_saved',authMiddleware, PostController.userSavedPost);
 router.get('/all_posts', PostController.getPosts);

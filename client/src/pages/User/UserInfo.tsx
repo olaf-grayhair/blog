@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import avatar from '../../assets/user.png'

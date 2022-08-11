@@ -1,20 +1,21 @@
 import React, {FC, useState} from 'react';
 import { useNavigate } from "react-router-dom"
+import { imageState } from '../../components/imgState';
 import { useInput } from '../../hooks/input';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { createPost, uploaFile } from '../../store/actions/PostAction';
+import { createPost, updatePost, uploaFile } from '../../store/actions/PostAction';
 import Button from '../../UI/Button/Button';
 import style from './createpost.module.scss';
 
 const UpdatePost: React.FC = () => {
     const dispatch = useAppDispatch()
-    const {posts} = useAppSelector(state => state.posts)
+    const {post} = useAppSelector(state => state.post)
     const {imageUrl} = useAppSelector(state => state.posts)
-    const title = useInput('')
-    const tags = useInput('')
-    const text = useInput('')
+    const title = useInput(post.title)
+    const tags = useInput(post.tags.join())
+    const text = useInput(post.text)
 
-    console.log(posts, 'posts');
+    console.log(post._id, 'post');
     
     const navigate = useNavigate();
     const sendPost = () => {
@@ -24,21 +25,15 @@ const UpdatePost: React.FC = () => {
             text: text.value,
             imageUrl
         }
-        // const formData = new FormData()
-        // formData.append('title', title)
-        // formData.append('tags', tags)
-        // formData.append('text', text)
-        // formData.append('imageUrl', imageUrl)
-        // console.log(formData);
-        
-        dispatch(createPost(body))
+   
+        dispatch(updatePost({body, id: post._id}))
         navigate('../', { replace: true })
     }
 
     function sendImg(e: React.ChangeEvent<HTMLInputElement>) {
         let file: any = e.target.files?.[0]; 
         console.log(file);
-        dispatch(uploaFile(file))
+        dispatch(uploaFile({body:file, id: post._id}))
         // dispatch(uploadAvatar(file))
     }
 
@@ -55,7 +50,10 @@ const UpdatePost: React.FC = () => {
                     />
                 </label>
             </div>
-            <img className={style.poster} src={imageUrl === '' ? 'No image' : imageUrl} alt="" />
+            <img className={style.poster} 
+                src={imageState(post.imageUrl, imageUrl, 'No img')}
+                alt="" />
+                
             <div className={style.input__block}>
                 <label htmlFor="name">Title</label>
                 <input className={style.input} type='text' placeholder='write your title here...'
@@ -78,7 +76,7 @@ const UpdatePost: React.FC = () => {
                 value={text.value}
                 ></textarea>
             </div>
-            <Button value='publish' bgColor='gray' action={sendPost}/>
+            <Button value='edit' bgColor='gray' action={sendPost}/>
         </div>
     );
 }

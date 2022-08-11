@@ -64,6 +64,12 @@ console.log(!posts, 'posts');
                 <Route path="/" element={<PostList />} />
                 <Route path="/:id" element={<PostTags />} />
                 <Route path="/search" element={<PostSearch />} />
+                <Route path="/reading_list" element={<ReadingList />} />
+                <Route path="/my_posts" element={<MyPosts />} />
+                <Route
+                  path="/login"
+                  element={<Navigate replace to="/" />}
+                />
               </Route>
               <Route path="/post/:id" element={<Post />} />
               <Route path="/:id" element={<PostTags />} />
@@ -72,9 +78,6 @@ console.log(!posts, 'posts');
               <Route path="/setting" element={<UserSetting />} />
               <Route path="/new" element={<CreatePost />} />
               <Route path="/update_post" element={<UpdatePost />} />
-              <Route path="/my_posts" element={<MyPosts />} />
-              <Route path="/reading_list" element={<ReadingList />} />
-
               <Route
                 path="*"
                 element={<Navigate replace to="/" />}

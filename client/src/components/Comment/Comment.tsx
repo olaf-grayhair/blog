@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import { FaWindowClose } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setCommentId } from '../../store/reducers/CommentSlice';
@@ -12,14 +12,10 @@ const Comment: React.FC<IComment> = ({text, post, user, _id, date}) => {
     const userId = useAppSelector(state => state.users.user._id)
     const userCommentId = user._id
 
-
     const show = () => {
         dispatch(showPopup(true))
         dispatch(setCommentId(_id))
     }
-
-    
-    // console.log(user);
     
     return (
         <div className={style.comment}>
