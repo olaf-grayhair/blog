@@ -31,7 +31,6 @@ const PostItem: React.FC<IPost> = ({
 
     const saveArray = JSON.parse(localStorage.getItem("saved_posts") || "") 
     const saveItem = saveArray.find((el: string) => el === _id)
-    console.log(saveArray);
     
     return (
         <div className={style.post__item}>

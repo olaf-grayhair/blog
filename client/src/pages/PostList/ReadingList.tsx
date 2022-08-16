@@ -8,7 +8,7 @@ import { fetchSavedArticle } from '../../store/actions/PostAction';
 
 const MyPosts: React.FC<any> = () => {
     
-    const {posts, isLoading, error, postsLength} = useAppSelector(state => state.posts)
+    const {posts, isLoading, error, totalPages} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
     useEffect(() => {

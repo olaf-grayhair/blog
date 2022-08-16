@@ -6,7 +6,7 @@ import { fetchSearchPost, fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
 
 const PostSearch: React.FC<any> = () => {
-    const {post, isLoading, error, postsLength} = useAppSelector(state => state.posts)
+    const {post, isLoading, error, totalPages} = useAppSelector(state => state.posts)
     const search = useAppSelector(state => state.users.search)
     const dispatch = useAppDispatch()
     

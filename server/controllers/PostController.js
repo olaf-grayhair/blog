@@ -104,24 +104,48 @@ class PostController {
 
     async getPosts(req, res) {
         try {
+            const { page = 1, limit = 4 } = req.query;
             const { sort } = req.query
             let posts
             switch (sort) {
                 case 'date':
-                    posts = await Post.find().populate('user').sort({ timestamps: -1 }).exec()
+                    posts = await Post.find()
+                    .sort({ timestamps: -1 })
+                    .limit(limit * 1)
+                    .skip((page - 1) * limit)
+                    .populate('user')
+                    .exec()
                     break
                 case 'comments':
-                    posts = await Post.find().populate('user').sort({ comments: 1 }).exec()
+                    posts = await Post.find()
+                    .limit(limit * 1)
+                    .skip((page - 1) * limit)
+                    .populate('user')
+                    .sort({ comments: 1 })
+                    .exec()
                     break
                 case 'likes':
-                    posts = await Post.find().populate('user').sort({ likes: 1 }).exec()
+                    posts = await Post.find()
+                    .limit(limit * 1)
+                    .skip((page - 1) * limit)
+                    .populate('user')
+                    .sort({ likes: 1 })
+                    .exec()
                     break
                 default:
-                    posts = await Post.find().populate('user').exec()
+                    posts = await Post.find()
+                    .limit(limit * 1)
+                    .skip((page - 1) * limit)
+                    .populate('user')
+                    .exec()
             }
             const postsLength = await Post.countDocuments()
-
-            res.json({ posts, postsLength })
+            console.log( Math.ceil(postsLength / limit));
+            res.json({ 
+                posts, 
+                totalPages: Math.ceil(postsLength / limit),
+                currentPage: +page
+            })
         } catch (error) {
             res.status(500).json({
                 message: 'Не удалось получить статьи',

@@ -1,7 +1,8 @@
 ///all posts
 export interface IData {
     posts: IPost[];
-    postsLength: number;
+    totalPages: number;
+    currentPage: number;
 }
 ///post
 export interface IPost {

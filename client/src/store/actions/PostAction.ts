@@ -5,24 +5,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchPosts = createAsyncThunk(
     'posts/getAll',
-    async (sortItem?: string) => {
+    async (item: {sortItem: string, page?: number}) => {
 
         let query = ''
-        if (sortItem === 'date') {
-            query = '?sort=date'
+        if (item.sortItem === 'date') {
+            query = '&sort=date'
         }
-        if (sortItem === 'comments') {
-            query = '?sort=comments'
+        if (item.sortItem === 'comments') {
+            query = '&sort=comments'
         }
-        if (sortItem === 'likes') {
-            query = '?sort=likes'
+        if (item.sortItem === 'likes') {
+            query = '&sort=likes'
         }
-        if (sortItem === '') {
+        if (item.sortItem === '') {
             query = ''
         }
-
+        // ТЭГИ ОТДЕЛЬНО ????
         try {
-            const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts${query}`)
+            const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts/?page=${item.page}&limit=4${query}`)
             return response.data
         } catch (e) {
             console.log('upload error')

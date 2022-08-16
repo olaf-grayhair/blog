@@ -4,7 +4,7 @@ import { createPost, fetchDeletePost, fetchLike, fetchPosts, fetchSavedArticle, 
 
 interface PostState extends IData {
     // posts: IPost[];
-    // postsLength: number ;
+    // totalPages: number ;
     isLoading: boolean;
     error: string;
     post: IPost[];
@@ -16,7 +16,8 @@ const initialState: PostState = {
     posts: [],
     post: [],
     like: '',
-    postsLength: 0,
+    totalPages: 0,
+    currentPage: 0,
     isLoading: false,
     error: '',
     imageUrl: '',
@@ -31,11 +32,22 @@ const postSlice = createSlice({
         [fetchPosts.pending.type]: (state) => {
             state.isLoading = true
         },
-        [fetchPosts.fulfilled.type]: (state, action: PayloadAction<IData>) => {
+        [fetchPosts.fulfilled.type]: (state, action: PayloadAction<any>) => {
             state.isLoading = false;
             state.error = ''
-            state.posts = action.payload.posts;
-            state.postsLength = action.payload.postsLength;
+            let arr = [...state.posts, ...action.payload.posts]
+            
+            state.posts = arr.reduce((o: any, i: any) => {
+                if (!o.find((v:any) => v._id == i._id)) {
+                  o.push(i);
+                }
+                return o;
+              }, []);
+            // state.posts = action.payload.posts
+            state.totalPages = action.payload.totalPages;
+            state.currentPage = action.payload.currentPage
+
+
         },
         [fetchPosts.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
@@ -62,6 +74,7 @@ const postSlice = createSlice({
             state.isLoading = false
             state.error = ''
             state.posts.push(action.payload.post);
+            state.imageUrl = ''
         },
         [createPost.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
@@ -115,7 +128,7 @@ const postSlice = createSlice({
             state.isLoading = false;
             state.error = ''
             state.posts = action.payload.posts;
-            state.postsLength = action.payload.postsLength;
+            state.totalPages = action.payload.totalPages;
         },
         [fetchUserPost.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
@@ -129,13 +142,12 @@ const postSlice = createSlice({
             state.isLoading = false;
             state.error = ''
             state.posts = action.payload.posts;
-            state.postsLength = action.payload.postsLength;
+            state.totalPages = action.payload.totalPages;
         },
         [fetchSavedArticle.rejected.type]: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },
-
 
         ///update post
         [updatePost.pending.type]: (state) => {

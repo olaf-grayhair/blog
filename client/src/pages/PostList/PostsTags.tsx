@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 const PostTags: React.FC<any> = () => {
     const { id } = useParams() as { id: string }
-    const {post, isLoading, error, postsLength} = useAppSelector(state => state.posts)
+    const {post, isLoading, error, totalPages} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
     
     useEffect(() => {

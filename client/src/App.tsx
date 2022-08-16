@@ -1,4 +1,3 @@
-import './app.scss'
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from './components/Header/Header'
@@ -18,13 +17,13 @@ import PostTags from './pages/PostList/PostsTags';
 import PostList from './pages/PostList/PostList';
 import ReadingList from './pages/PostList/ReadingList';
 import UpdatePost from './pages/CreatePost/UpdatePost';
+import style from './app.module.scss';
 
 
 function App() {
-  const { isAuth, menu } = useAppSelector(state => state.users)
-  const { posts, postsLength } = useAppSelector(state => state.posts)
+  const { isAuth, menu, popup, popupPost } = useAppSelector(state => state.users)
+  const { posts, totalPages } = useAppSelector(state => state.posts)
   const dispatch = useAppDispatch()
-console.log(!posts, 'posts');
 
   useEffect(() => {
     dispatch(fetchUserAuth())
@@ -36,9 +35,11 @@ console.log(!posts, 'posts');
     }
   }
 
+  console.log('APP page');
+  
   return (
     <BrowserRouter>
-      <div className='app' onClick={closeMenu}>
+      <div className={popupPost || popup? style.app_height : style.app} onClick={closeMenu}>
         <Header />
         <div className="container">
           {!isAuth
@@ -47,16 +48,15 @@ console.log(!posts, 'posts');
                 <Route path="/" element={<PostList />} />
                 <Route path="/:id" element={<PostTags />} />
                 <Route path="/search" element={<PostSearch />} />
-                {/* {!posts && <Route path="/login" element={<Login />} />} */}
+                <Route
+                path="/*"
+                element={<Navigate replace to="/" />}
+              />
               </Route>
               <Route path="/login" element={<Login />} />
               <Route path="/registration" element={<Registration />} />
               <Route path="/post/:id" element={<Post />} />
               <Route path="/" element={<Navigate replace to="/login" />} />
-              <Route
-                path="/*"
-                element={<Navigate replace to="/" />}
-              />
             </Routes>
 
             : <Routes>
@@ -68,6 +68,10 @@ console.log(!posts, 'posts');
                 <Route path="/my_posts" element={<MyPosts />} />
                 <Route
                   path="/login"
+                  element={<Navigate replace to="/" />}
+                />
+                <Route
+                  path="/registration"
                   element={<Navigate replace to="/" />}
                 />
               </Route>
