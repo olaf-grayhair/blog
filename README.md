@@ -8,7 +8,9 @@ Sorrting by create time and likes, add posts to bookmarks
 
 
 #Front-end
+
 React, typescript, react-redux, redux-thunk, axios, react-router-dom, sass, react-icons,react-loader-spinner
 
 #Back-end
+
 Mongoose, express, express-validator, jsonwebtoken, multer, bcrypt
