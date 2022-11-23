@@ -28,10 +28,16 @@ const PostItem: React.FC<IPost> = ({
     const savePost = () => {
         dispatch(saveArticle(_id))
     }
-
-    const saveArray = JSON.parse(localStorage.getItem("saved_posts") || "") 
-    const saveItem = saveArray.find((el: string) => el === _id)
     
+    const result = localStorage.getItem('saved_posts')
+
+    let saveArray
+    let saveItem
+    if(result !== null) {
+        saveArray = JSON.parse(result || "") 
+        saveItem = saveArray.find((el: string) => el === _id)
+    }
+    // I CHANGE LOCALSTORAGE!!! 
     return (
         <div className={style.post__item}>
             <Link to={'/post/' + _id} className={style.link__img}>
