@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const fs = require('fs')
+const sharp = require('sharp');
+const uuid = require('uuid');
+
 
 const generateJwt = (id, email, role) => {
     return jwt.sign(
@@ -114,16 +117,32 @@ class UserController {
     
     async uploadAvatar(req, res) {
         try {
-            const url = `${process.env.SERVER_URL}uploads/${req.file.filename}`
-
             const user = await User.findById({_id: req.user.id})
 
+            //SHARP
+            const index = req.file.filename.lastIndexOf('.');
+            const format = req.file.filename.slice(index + 1)
+            const imgName = uuid.v4() + '.' + format
+
+            const url = `${process.env.SERVER_URL}uploads/${imgName}`
+            try {
+                await sharp(req.file.path)
+                .resize({with:80, height:80})
+                .toFormat(`jpeg`, { mozjpeg: true }) 
+                .toFile(`./uploads/${imgName}`); 
+                fs.unlinkSync(req.file.path)
+            } catch (error) {
+                console.log(error);
+            }
+            //SHARP compress img
+
             if(user.avatarUrl !== '') {
-                let img = user.avatarUrl.split('http://localhost:5000/')[1]
-                console.log(img);
+                let img = user.avatarUrl.split(process.env.SERVER_URL)[1]
+
+                console.log(img, 'userUpload', req.file.path);
                 try {
                     fs.unlinkSync(img)
-                    console.log("Successfully deleted the file.")
+                    console.log("Successfully deleted file.")
                   } catch(err) {
                     await User.findOneAndUpdate({_id: req.user.id}, {avatarUrl: ""})
                     console.log(err);
@@ -131,6 +150,7 @@ class UserController {
                   }
             }
 
+            console.log('end', url);
             res.json(url)
         } catch (error) {
             res.status(500).json({

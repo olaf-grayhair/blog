@@ -4,6 +4,9 @@ const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const User = require('../models/User');
 const fs = require('fs')
+const sharp = require('sharp');
+const uuid = require('uuid');
+
 
 class PostController {
     async create(req, res) {
@@ -154,23 +157,43 @@ class PostController {
     }
 
     async upload(req, res) {
+
         try {
-            const url = `${process.env.SERVER_URL}uploads/${req.file.filename}`
             
-            console.log(req.body.id, 'post');
+            const index = req.file.filename.lastIndexOf('.');
+            const format = req.file.filename.slice(index + 1)
+            const imgName = uuid.v4() + '.' + format
+
+            const url = `${process.env.SERVER_URL}uploads/${imgName}`
+
+            try {
+                await sharp(req.file.path)
+                // .resize({with:600, height:500})
+                .toFormat(`jpeg`, { mozjpeg: true }) 
+                .toFile(`./uploads/${imgName}`); 
+                fs.unlinkSync(req.file.path)
+            } catch (error) {
+                console.log(error);
+            }
+            ///SHARP compress img
+
             if(req.body.id === '') {
-                res.json(url)
+                //if no post
+                return res.json(url)
             }
 
+            console.log('return');
             const post = await Post.findById({_id: req.body.id })
 
             if(post.imageUrl !== '') {
-                let img = post.imageUrl.split('http://localhost:5000/')[1]
+                let img = post.imageUrl.split(process.env.SERVER_URL)[1]
+                console.log(img, 'img');
+
                 try {
                     fs.unlinkSync(img)
                     console.log("Successfully deleted the file.")
                   } catch(err) {
-                      console.log(err);
+                    console.log(err);
                     await Post.findOneAndUpdate({_id: req.body.id}, {imageUrl: ""})
                     throw err
                   }

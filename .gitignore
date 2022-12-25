@@ -7,4 +7,4 @@ server/node_modules
 server/files
 server/.pnp
 server/.pnp.js
-server/uploads
+server/uploads/*
