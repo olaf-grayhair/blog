@@ -143,10 +143,16 @@ class PostController {
                     .exec()
             }
             const postsLength = await Post.countDocuments()
-            console.log( Math.ceil(postsLength / limit));
+
+            const totalPages = Math.ceil(postsLength / limit)
+            console.log( totalPages, 'postLength');
+
+
+            res.append('X-Total-Count', totalPages);
+
             res.json({ 
                 posts, 
-                totalPages: Math.ceil(postsLength / limit),
+                totalPages: totalPages,
                 currentPage: +page
             })
         } catch (error) {

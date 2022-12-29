@@ -125,6 +125,7 @@ class UserController {
             const imgName = uuid.v4() + '.' + format
 
             const url = `${process.env.SERVER_URL}uploads/${imgName}`
+
             try {
                 await sharp(req.file.path)
                 .resize({with:80, height:80})
