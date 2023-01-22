@@ -35,15 +35,43 @@ const postSlice = createSlice({
         [fetchPosts.fulfilled.type]: (state, action: PayloadAction<any>) => {
             state.isLoading = false;
             state.error = ''
-            let arr = [...state.posts, ...action.payload.posts]
-            
-            state.posts = arr.reduce((o: any, i: any) => {
-                if (!o.find((v:any) => v._id == i._id)) {
-                  o.push(i);
-                }
-                return o;
-              }, []);
-            // state.posts = action.payload.posts
+            // let arr: any[][] = []
+            // arr = ([...state.posts, ...action.payload.posts])
+
+            // state.posts = arr.reduce((o: any, i: any) => {
+            //     if (!o.find((v: any) => v._id == i._id)) {
+            //         o.push(i);
+            //     }
+            //     return o;
+            // }, []);
+
+            // state.posts = [...state.posts, ...action.payload.posts]
+
+            // state.posts = state.posts.filter((value, index, self) =>
+            //     index === self.findIndex((t) => (
+            //         t._id === value._id && t.title === value.title
+            //     ))
+            // )
+
+            // state.posts = state.posts.filter((v,i,a)=>a.findIndex(v2=>(v2._id===v._id))===i)
+
+            // if(state.currentPage === action.payload.currentPage) {
+            //     state.posts = action.payload.posts
+            // }else {
+            //     let array = []
+            //     array = [...state.posts, ...action.payload.posts]
+
+            //     state.posts = array.filter((v,i,a)=>a.findIndex(v2=>(v2._id===v._id))===i)
+            // }
+
+            let array = []
+            array = [...state.posts, ...action.payload.posts]
+
+            state.posts = array.filter((v, i, a) => a.findIndex(v2 => (v2._id === v._id)) === i)
+
+            // console.log(state.posts);
+
+
             state.totalPages = action.payload.totalPages;
             state.currentPage = action.payload.currentPage
 
@@ -153,7 +181,7 @@ const postSlice = createSlice({
         [updatePost.pending.type]: (state) => {
             state.isLoading = true
         },
-        [updatePost.fulfilled.type]: (state, action: PayloadAction<any>) => {
+        [updatePost.fulfilled.type]: (state, action: PayloadAction<IOnePost>) => {
             state.isLoading = false;
             state.error = ''
             state.posts = state.posts.filter(post => post._id === action.payload.post._id);

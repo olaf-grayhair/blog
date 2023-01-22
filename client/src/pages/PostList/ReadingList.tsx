@@ -4,9 +4,10 @@ import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import style from './postlist.module.scss';
 import { fetchSavedArticle } from '../../store/actions/PostAction';
+import ErrorPosts from '../../UI/Error/ErrorPosts';
 
 
-const MyPosts: React.FC<any> = () => {
+const MyPosts: React.FC = () => {
     
     const {posts, isLoading, error, totalPages} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()
@@ -17,9 +18,7 @@ const MyPosts: React.FC<any> = () => {
 
       if (!posts.length) {
         return (
-            <div>
-                Постов не существует.
-            </div>
+            <ErrorPosts text='Your reading list is empty'/>
         )
     }
 

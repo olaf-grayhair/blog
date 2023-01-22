@@ -1,5 +1,4 @@
 
-
 export const imageState = (itemImg: string, uploadImg: string, statickImg: string) => {
     if (itemImg === '' && uploadImg === '') {
         return statickImg

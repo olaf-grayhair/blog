@@ -30,7 +30,7 @@ const Header: FC = () => {
     const onSearch = () => {
         if(search !== '') {
             dispatch(setSearchItem(search))
-            navigate('../search', { replace: true })
+            navigate('../blog/search', { replace: true })
             setSearch('')
         }
     }
@@ -39,7 +39,7 @@ const Header: FC = () => {
         <div className={style.header}>
             <nav>
                 <div className={style.logo__block}>
-                    <Link to='/' className={style.logo}>
+                    <Link to='/blog' className={style.logo}>
                         <img src={logo} alt="logo" />
                         Blog
                     </Link>
@@ -56,7 +56,7 @@ const Header: FC = () => {
                         <Link to="/registration">create account</Link>
                     </div>
                     : <div className={style.login__block}>
-                        <Link to="/new"><Button value='create post' bgColor='gold' /></Link>
+                        <Link to="/blog/new"><Button value='create post' bgColor='gold' /></Link>
                         <div className={style.userinfo}>
                             <img className={style.avatar} src={avatarUrl ? avatarUrl : avatar} alt=""
                                 onClick={openMenu}

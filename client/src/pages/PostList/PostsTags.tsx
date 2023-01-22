@@ -7,7 +7,7 @@ import style from './postlist.module.scss';
 import { useParams } from 'react-router-dom';
 
 
-const PostTags: React.FC<any> = () => {
+const PostTags: React.FC = () => {
     const { id } = useParams() as { id: string }
     const {post, isLoading, error, totalPages} = useAppSelector(state => state.posts)
     const dispatch = useAppDispatch()

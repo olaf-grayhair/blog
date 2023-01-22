@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom"
 import { useInput } from '../../hooks/input';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -21,12 +21,6 @@ const CreatePost: React.FC = () => {
             text: text.value,
             imageUrl
         }
-        // const formData = new FormData()
-        // formData.append('title', title)
-        // formData.append('tags', tags)
-        // formData.append('text', text)
-        // formData.append('imageUrl', imageUrl)
-        // console.log(formData);
         
         dispatch(createPost(body))
         navigate('../', { replace: true })
@@ -36,7 +30,6 @@ const CreatePost: React.FC = () => {
         let file: any = e.target.files?.[0]; 
         dispatch(uploaFile(file))
         dispatch(uploaFile({body:file, id: ''}))
-        // dispatch(uploadAvatar(file))
     }
 
     return (

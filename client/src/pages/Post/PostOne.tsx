@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import style from './post.module.scss';
 import UserItem from '../../components/UserItem/UserItem';
 import Comment from '../../components/Comment/Comment';
-import { ILike } from '../../types/types';
+import { IComment, ILike, IUserInfo } from '../../types/types';
 import Loader from '../../components/Loader/Loader';
 import CreateComment from '../../components/Comment/CreateComment';
 import { AiFillHeart } from 'react-icons/ai';
@@ -21,13 +21,13 @@ export interface IP {
     _id: string;
     title: string;
     text: string;
-    tags: any[];
+    tags: string[];
     imageUrl: string;
     timestamps: string;
     userId: string;
-    user: any;
-    likes?: ILike[];///up
-    comments: any[];
+    user: IUserInfo;
+    likes?: ILike[];
+    comments: IComment[];
     action: any;
     isAuth: boolean;
 }
@@ -61,11 +61,6 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
     const changePage = (el: any) => {
         navigate(`../${el}`, { replace: true })
     }
-    // useEffect(() => {
-
-    //   },[]);
-
-    console.log(tags, 'tags');
 
     return (
 
@@ -78,7 +73,7 @@ const PostOne: React.FC<IP> = ({ title, tags, text, timestamps, imageUrl, _id, i
                                 className={style.icon}
                                 onClick={show}
                             />
-                            <Link to='/update_post'>
+                            <Link to='/blog/update_post'>
                                 <BsFillPencilFill
                                     className={style.icon}
                                 />

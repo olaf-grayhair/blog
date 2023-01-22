@@ -1,21 +1,30 @@
 import React, { FC } from 'react';
 import Sort from '../components/Sort/Sort';
-import PostList from './PostList/PostList';
 import style from './home.module.scss';
 import Tags from '../components/Tags/Tags';
-import PostTags from './PostList/PostsTags';
-import PostSearch from './PostList/PostsSearch';
-import { BrowserRouter, Route, Routes, Navigate, useLocation, Outlet } from "react-router-dom";
+import { useLocation, Outlet, useSearchParams, useParams } from "react-router-dom";
+import queryString from 'query-string';
+import PostList from './PostList/PostList';
 
 const Home: React.FC = () => {
     const location = useLocation();
-    console.log(location.pathname, 'location');
+    // console.log(location.pathname, 'location');
+    // console.log(window.location, 'location.search');
+    // const [searchParams, setSearchParams] = useSearchParams({});
+    // console.log(searchParams, 'router-dom search');
+    const params = useParams();
+
+    // console.log(params, 'params');
+
+    const parsed = queryString.parse(location.search);
+    // console.log(parsed);
     
+
     return (
         <div className={style.home}>
             <Sort />
             <div className={style.contaiter}>
-                <Outlet/>
+                <Outlet />
                 <Tags />
             </div>
         </div>

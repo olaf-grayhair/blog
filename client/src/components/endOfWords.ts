@@ -1,6 +1,4 @@
 
-
-
 export const endOfWords = (array: number, word:string) => {
     if(array > 1) {
         return word + 's'

@@ -4,6 +4,7 @@ import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchSearchPost, fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
+import ErrorPosts from '../../UI/Error/ErrorPosts';
 
 const PostSearch: React.FC<any> = () => {
     const {post, isLoading, error, totalPages} = useAppSelector(state => state.posts)
@@ -17,9 +18,7 @@ const PostSearch: React.FC<any> = () => {
       
       if (!post.length) {
         return (
-            <div>
-                Постов не существует.
-            </div>
+            <ErrorPosts text={`I can't find ${search} post`} />
         )
     }
 

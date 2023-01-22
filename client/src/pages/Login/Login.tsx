@@ -28,8 +28,6 @@ const Login: React.FC = () => {
 
     }
 
-    console.log(email.msgState, 'pass');
-
 
     return (
         <div className={style.login}>

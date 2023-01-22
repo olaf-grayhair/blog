@@ -9,6 +9,7 @@ import { endOfWords } from '../../../components/endOfWords';
 import Button from '../../../UI/Button/Button';
 import { saveArticle } from '../../../store/actions/Comment&&OnePostAction';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const PostItem: React.FC<IPost> = ({
     title,
@@ -24,24 +25,37 @@ const PostItem: React.FC<IPost> = ({
     const dispatch = useAppDispatch()
     const readingList = useAppSelector(state => state.post.readingList)///??? если убрать, не будет рендера!
 
-    
+
     const savePost = () => {
         dispatch(saveArticle(_id))
     }
-    
-    const result = localStorage.getItem('saved_posts')
 
     let saveArray
     let saveItem
-    if(result !== null) {
-        saveArray = JSON.parse(result || "") 
+    try {
+        saveArray = JSON.parse(localStorage.getItem("saved_posts") || "")
         saveItem = saveArray.find((el: string) => el === _id)
+
+    } catch (err) {
+        // 👇️ SyntaxError: Unexpected end of JSON input
+        // console.log('error', err);
     }
-    // I CHANGE LOCALSTORAGE!!! 
+
+    // const saveArray = JSON.parse(localStorage.getItem("saved_posts") || "") 
+    // const saveItem = saveArray.find((el: string) => el === _id)
+
     return (
         <div className={style.post__item}>
             <Link to={'/post/' + _id} className={style.link__img}>
-                <img src={imageUrl ? imageUrl : noImg} alt="" />
+                <LazyLoadImage
+                    key={imageUrl}
+                    src={imageUrl ? imageUrl : noImg}
+                    effect='blur'
+                    style={{objectFit:'contain'}}
+                    width='100%'
+                    height='100%'
+                />
+                {/* <img src={imageUrl ? imageUrl : noImg} alt="image" loading='lazy' /> */}
             </Link>
 
             <UserItem

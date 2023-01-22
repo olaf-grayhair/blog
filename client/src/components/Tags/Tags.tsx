@@ -7,6 +7,9 @@ const Tags: React.FC = () => {
     const posts = useAppSelector(state => state.posts.posts)
     const result = Array.from(new Set(posts.map(el => el.tags).flat()))
     
+    // console.log(posts.map(el => el.tags), result);
+    
+    
     return (
         <div className={style.tags}>
             {result.map(el => 

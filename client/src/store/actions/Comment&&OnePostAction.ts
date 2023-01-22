@@ -1,5 +1,5 @@
 import { IComment, IComments, ICreate, IData, IOnePost, IPost, ISave } from "../../types/types";
-import { instance } from "../../components/instance";
+import { baseURL, instance } from "../../components/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ export const fetchOnePost = createAsyncThunk(
     'posts/fetchOnePost',
     async (id: string, thunkAPI) => {
         try {
-            const response = await axios.get<IOnePost>(`http://localhost:5000/api/post/${id}`)
+            const response = await axios.get<IOnePost>(`${baseURL}post/${id}`)
             console.log(response.data);
             return response.data
         } catch (err: any) {

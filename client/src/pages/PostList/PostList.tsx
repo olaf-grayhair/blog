@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PostItem from './PostItem/PostItem';
 import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -15,72 +15,42 @@ const PostList: React.FC = () => {
     const observer = useRef<IntersectionObserver | null>(null);
 
     const [page, setPage] = useState<number>(1)
+    const [hasMore, setHasMore] = useState<boolean>(false);
 
     useEffect(() => {
-        // if (fetching) {
-        //     dispatch(fetchPosts({ sortItem: '', page: page }))
-        //     console.log('fetching', page);
-
-        // }
-        // setFetching(false)
-        console.log('postLIST');
-
-        dispatch(fetchPosts({ sortItem: '', page: page }))
+        setHasMore(totalPages > page)
+        
+        dispatch(fetchPosts({ sortItem: '', page: page, limit: posts.length }))
     }, [page]);
 
-    useEffect(() => {
-        if (isLoading) return;
-        if (observer.current) observer.current.disconnect();
 
-        var callback = function (entries: any, observer: any) {
+    const lastBookElementRef = useCallback((node: HTMLDivElement) => {
+        if (isLoading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && page < totalPages) {
-                console.log(page);
-                setPage(page + 1)
+                
+                setPage(prevPageNumber => prevPageNumber + 1)
             }
-        };
-        observer.current = new IntersectionObserver(callback);
-        observer.current.observe(myRef.current)
-    }, [isLoading]);
+        })
+        if (node) observer.current.observe(node)
+    }, [isLoading, hasMore])
 
-    //   if (!posts.length) {
-    //     return (
-    //         <div>
-    //             Постов не существует.
-    //         </div>
-    //     )
-    // }
-
-    ////pagination
-    const getPagesArray = () => {
-        let result = [];
-        for (let i = 0; i < totalPages; i++) {
-            result.push(i + 1)
-        }
-        return result;
-    }
-
-    const onClick = (num: number) => {
-        // dispatch(fetchPosts({ sortItem: '', page: num }))
-        setPage(page + 1)
-        console.log(num, 'page');
-
-    }
     /////
-    const postsArray = posts.map((post, id) => <PostItem key={post._id} {...post} />)
+    const postsArray = posts.map((post, id) =>
+        <PostItem key={post._id} {...post} />
+    )
 
     return (
         <div className={style.postlist}>
-            <div style={{ display: 'flex' }}>
-                {getPagesArray().map(el => <li style={{ padding: '10px', cursor: 'pointer' }} key={Math.random()} onClick={() => onClick(el)}>{el}</li>)}
-            </div>
             {!isLoading
                 ? <>
                     {postsArray}
-                    <div ref={myRef} style={{ background: 'red' }}>
-                        Have you scrolled down here yet? ????
+                    <div ref={lastBookElementRef} style={{ background: 'red' }}>
                     </div>
                 </>
-                : <Loader />}
+                : <Loader />
+            }
 
 
         </div>

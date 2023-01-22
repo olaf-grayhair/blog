@@ -9,12 +9,10 @@ interface IError {
 }
 
 const ErrorMsg: React.FC<IError> = ({name, close, bool}) => {
-    // console.log(bool, 'err');
     
     return (
         <>
             <label className={!bool ? style.bool : style.error}>{name}
-            {/* <label className={style.error}>{name} */}
                 <AiOutlineClose
                     className={style.icon}
                     onClick={close} />

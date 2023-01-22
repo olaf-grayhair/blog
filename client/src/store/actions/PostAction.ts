@@ -1,11 +1,11 @@
 import axios from "axios";
 import { IData, IOnePost, IPost } from "../../types/types";
-import { instance } from "../../components/instance";
+import { baseURL, instance } from "../../components/instance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchPosts = createAsyncThunk(
     'posts/getAll',
-    async (item: {sortItem: string, page?: number}) => {
+    async (item: {sortItem: string, page?: number, limit?: number}) => {
 
         let query = ''
         if (item.sortItem === 'date') {
@@ -21,8 +21,12 @@ export const fetchPosts = createAsyncThunk(
             query = ''
         }
         // ТЭГИ ОТДЕЛЬНО ????
+        console.log(item.limit, 'item.limit');
+        
         try {
-            const response = await axios.get<IData>(`http://localhost:5000/api/post/all_posts/?page=${item.page}&limit=4${query}`)
+            const response = await axios.get<IData>(`${baseURL}post/all_posts?page=${item.page}&limit=${query !== '' && item.limit !== undefined ? item.limit : 4}${query}`)
+            console.log(response.data);
+            
             return response.data
         } catch (e) {
             console.log('upload error')

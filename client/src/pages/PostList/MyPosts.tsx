@@ -4,6 +4,7 @@ import Loader from '../../components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchUserPost } from '../../store/actions/PostAction';
 import style from './postlist.module.scss';
+import ErrorPosts from '../../UI/Error/ErrorPosts';
 
 
 const MyPosts: React.FC = () => {
@@ -13,17 +14,16 @@ const MyPosts: React.FC = () => {
     
     useEffect(() => {
         dispatch(fetchUserPost())
-        console.log('effect');
       },[]);
 
       if (!posts.length) {
         return (
-            <div>
-                Постов не существует.
-            </div>
+            <ErrorPosts text='No posts'/>
         )
     }
 
+    console.log('myposts');
+    
     const postsArray = posts.map((post, id) => <PostItem key={post._id} {...post}/>)
 
     return (

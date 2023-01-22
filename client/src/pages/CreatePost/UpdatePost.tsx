@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom"
 import { imageState } from '../../components/imgState';
 import { useInput } from '../../hooks/input';
