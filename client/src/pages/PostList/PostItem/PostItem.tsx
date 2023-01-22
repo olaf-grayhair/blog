@@ -10,6 +10,7 @@ import Button from '../../../UI/Button/Button';
 import { saveArticle } from '../../../store/actions/Comment&&OnePostAction';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+// npm i --save-dev @types/react-lazy-load-image-component
 
 const PostItem: React.FC<IPost> = ({
     title,
